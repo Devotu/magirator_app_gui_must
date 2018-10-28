@@ -51,8 +51,17 @@ el.parentNode.replaceChild(newEl, el);
 document.getElementById('name').value = 'Adam'
 document.getElementById('pass').value = 'Hemligt';
 
+//App template storage
 let templates = {}
 
+//App data storage
+let data = {
+  user: {
+    name: "Knut-Kenneth Karlsson"
+  }
+}
+
+//Set up a templateChannel and let it get access to the template storage
 templateChannel.init(templates)
 
 /*
@@ -80,20 +89,42 @@ function doIt(it) {
   console.log('this is it: ' + it)
 }
 
-function renderView(template) {
-  var rendered = Mustache.render(template, {msg: "got it!"})
+//Run when a template has been fetched
+function updateTemplate(templateName, template) {
+  templates[templateName] = template
+  renderView(templateName)
+}
+
+//Renders the given view with the current data
+function renderView(templateName) {
+  var viewData = {}
+  switch (templateName) {
+    case 'main':
+      viewData = data.user
+      break;
+  
+    default:
+      console.log('could not find template')
+      break;
+  }
+
+  console.log('rendering ' + templateName + ' with ')
+  console.log(viewData)
+  var rendered = Mustache.render(templates[templateName], viewData)
   newEl.innerHTML = rendered;
 }
 
-function get(templateName, domain, content) {
-  templates['main'] = templateChannel.get(templateName, renderView)
+//Gets the given template and data
+function getViewContent(templateName, domain, content) {
+  templates['main'] = templateChannel.get(templateName, updateTemplate)
   //dataChannel.get(domain, content)
 }
 
+//Selects what template and what data to get
 function navigate(route) {
   switch (route) {
     case 'main':
-      get('main', null)
+      getViewContent('main')
       break;
     case 'deck:list':
       console.log('decklist')
@@ -106,11 +137,11 @@ function navigate(route) {
 const loginButton = document.getElementById('login');
 loginButton.addEventListener('click', login, false);
 
-const getDecksButton = document.getElementById('get-decks');
-getDecksButton.addEventListener('click', () => { templateChannel.get('main', doIt) }, false);
-
-const showTemplates = document.getElementById('get-templates');
+const showTemplates = document.getElementById('show-templates');
 showTemplates.addEventListener('click', () => { console.log(templates) }, false);
+
+const showData = document.getElementById('show-data');
+showData.addEventListener('click', () => { console.log(data) }, false);
 
 const navigateMain = document.getElementById('navigate-main');
 navigateMain.addEventListener('click', () => { navigate('main') }, false);

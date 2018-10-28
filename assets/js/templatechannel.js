@@ -33,7 +33,7 @@ var templateChannel = (function () {
       console.log("getting template")
       var template = ''
       channel.push('template', "main")
-        .receive("ok", (data) => callback(data.template))
+        .receive("ok", (data) => callback(name, data.template))
     }
   }
 })()
