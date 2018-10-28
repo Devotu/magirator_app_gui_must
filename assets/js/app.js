@@ -18,8 +18,8 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
-import { get as getTemplate } from "./templatesocket"
-import { login as dataLogin, get as getData } from "./datasocket"
+import { templateChannel } from "./templatechannel"
+//import { login as dataLogin, get as getData } from "./datasocket"
 
 
 
@@ -51,6 +51,11 @@ el.parentNode.replaceChild(newEl, el);
 document.getElementById('name').value = 'Adam'
 document.getElementById('pass').value = 'Hemligt';
 
+let templates = {}
+
+templateChannel.init(templates)
+
+/*
 function login() {
   const Http = new XMLHttpRequest();
 
@@ -69,7 +74,13 @@ function login() {
     }
   }
 }
+*/
 
+const loginButton = document.getElementById('login');
+loginButton.addEventListener('click', login, false);
 
-const btn = document.getElementById('login');
-btn.addEventListener('click', login, false);
+const getDecksButton = document.getElementById('get-decks');
+getDecksButton.addEventListener('click', () => { templateChannel.get('main') }, false);
+
+const showTemplates = document.getElementById('get-templates');
+showTemplates.addEventListener('click', () => { console.log(templates) }, false);

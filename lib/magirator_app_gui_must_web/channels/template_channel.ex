@@ -20,11 +20,16 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
 
     
     #In
-    def handle_in("main", _, socket) do
+    def handle_in("template", "main", socket) do
 
         html = Main.html
 
         broadcast(socket, "main", %{template: html})
         {:reply, :ok, socket}
+    end
+
+    def handle_in(_, _, socket) do
+        Logger.debug "No such template"        
+        {:reply, :error, socket}
     end
 end

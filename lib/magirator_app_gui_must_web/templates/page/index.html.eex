@@ -3,9 +3,17 @@
   <div id="inner">This is old stuff</div>
 </div>
 <button id="clicker">Main</button>
+
 <div>
   Name: <input type="text" id="name"><br>
   Pass: <input type="text" id="pass"><br>
   <button id="login">Login</button>
 </div>
 
+<div>
+  <button id="get-decks">Get deck list</button>
+</div>
+
+<div>
+  <button id="get-templates">Show templates</button>
+</div>

@@ -4,9 +4,6 @@
 // To use Phoenix channels, the first step is to import Socket
 // and connect at the socket path in "lib/web/endpoint.ex":
 
-import {Socket} from "phoenix"
-
-let templateSocket = new Socket("ws://localhost:4100/socket", {params: {}})
 
 // When you connect, you'll often need to authenticate the client.
 // For example, imagine you have an authentication plug, `MyAuth`,
@@ -52,30 +49,32 @@ let templateSocket = new Socket("ws://localhost:4100/socket", {params: {}})
 // Finally, pass the token on connect as below. Or remove it
 // from connect if you don't care about authentication.
 
-templateSocket.connect()
 
-function createUuid() {
-  return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  )
+import {Socket} from "phoenix"
+
+let socket = null
+let channel = null
+
+
+function login(token) {
+  socket = new Socket("ws://localhost:4100/socket", {params: {token: token}})
+
+  socket.connect()
+
+  channel = socket.channel("app:main" , {})
+  channel.join()
+    .receive("ok", resp => { console.log("Joined data successfully", resp) })
+    .receive("error", resp => { console.log("Unable to join data", resp) })
+
+  channel.on("data", payload => {
+    console.log(payload)
+  })
 }
 
-let uuid = createUuid();
-
-// Now that you are connected, you can join channels with a topic:
-let channel = templateSocket.channel("templates:" + uuid, {})
-channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
-  .receive("error", resp => { console.log("Unable to join", resp) })
-
-var template = ""
-
-function getTemplate(name) {
-  dataChannel.push("template", {x: "z"})
+function get(domain, action) {
+  console.log("getting data")
+  //channel.push("deck:list", {x: "y"})
 }
 
-channel.on("main", payload => {
-  console.log(payload)
-})
 
-export {getTemplate}
+export {login, get}
