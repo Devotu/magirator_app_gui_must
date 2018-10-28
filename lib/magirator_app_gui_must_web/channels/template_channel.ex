@@ -24,8 +24,8 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
 
         html = Main.html
 
-        broadcast(socket, "main", %{template: html})
-        {:reply, :ok, socket}
+        #broadcast(socket, "main", %{template: html})
+        {:reply, {:ok, %{template: html}}, socket}
     end
 
     def handle_in(_, _, socket) do

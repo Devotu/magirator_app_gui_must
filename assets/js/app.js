@@ -76,11 +76,41 @@ function login() {
 }
 */
 
+function doIt(it) {
+  console.log('this is it: ' + it)
+}
+
+function renderView(template) {
+  var rendered = Mustache.render(template, {msg: "got it!"})
+  newEl.innerHTML = rendered;
+}
+
+function get(templateName, domain, content) {
+  templates['main'] = templateChannel.get(templateName, renderView)
+  //dataChannel.get(domain, content)
+}
+
+function navigate(route) {
+  switch (route) {
+    case 'main':
+      get('main', null)
+      break;
+    case 'deck:list':
+      console.log('decklist')
+      break;
+    default:
+      console.log(route)
+  }
+}
+
 const loginButton = document.getElementById('login');
 loginButton.addEventListener('click', login, false);
 
 const getDecksButton = document.getElementById('get-decks');
-getDecksButton.addEventListener('click', () => { templateChannel.get('main') }, false);
+getDecksButton.addEventListener('click', () => { templateChannel.get('main', doIt) }, false);
 
 const showTemplates = document.getElementById('get-templates');
 showTemplates.addEventListener('click', () => { console.log(templates) }, false);
+
+const navigateMain = document.getElementById('navigate-main');
+navigateMain.addEventListener('click', () => { navigate('main') }, false);

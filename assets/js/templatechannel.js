@@ -29,9 +29,11 @@ var templateChannel = (function () {
       })
     },
 
-    get: function (name) {
+    get: function (name, callback) {
       console.log("getting template")
-      channel.push("template", "main")
+      var template = ''
+      channel.push('template', "main")
+        .receive("ok", (data) => callback(data.template))
     }
   }
 })()

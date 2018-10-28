@@ -17,3 +17,7 @@
 <div>
   <button id="get-templates">Show templates</button>
 </div>
+
+<div>
+  <button id="navigate-main">Main</button>
+</div>
