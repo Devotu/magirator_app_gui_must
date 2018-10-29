@@ -145,3 +145,29 @@ showData.addEventListener('click', () => { console.log(data) }, false);
 
 const navigateMain = document.getElementById('navigate-main');
 navigateMain.addEventListener('click', () => { navigate('main') }, false);
+
+//            / getTemplate \
+//  renderView                renderView - replaceView
+//            \ getData     /
+
+//function renderView(viewName, target)
+//switch view
+//call getTemplate
+//call getData
+//return void
+
+//function? getTemplate(name, target)
+//store template
+//call renderView(target)
+
+//function? getData(content, target)
+//store data
+//call renderView(target)
+
+//function renderView(target)
+//if template && data 
+//  > render 
+//  > replaceView(taget, content)
+//else -> void
+
+//function replaceView(target, content)
