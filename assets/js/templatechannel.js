@@ -1,5 +1,6 @@
 
 import { Socket } from "phoenix"
+import { createUuid } from './helpers'
 
 var templateChannel = (function () {
 
@@ -29,19 +30,15 @@ var templateChannel = (function () {
       })
     },
 
-    get: function (name, callback) {
+    get: function (fetchPacket, callback) {
       console.log("getting template")
       var template = ''
       channel.push('template', "main")
-        .receive("ok", (data) => callback(name, data.template))
+        .receive("ok", (data) => callback(fetchPacket, data.template))
     }
   }
 })()
 
-function createUuid() {
-  return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
-    (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-  )
-}
+
 
 export { templateChannel }

@@ -18,31 +18,33 @@ import "phoenix_html"
 // Local files can be imported directly using relative
 // paths "./socket" or full ones "web/static/js/socket".
 
+import { createUuid } from './helpers'
+
 import { templateChannel } from "./templatechannel"
 //import { login as dataLogin, get as getData } from "./datasocket"
 
 
 
-var view = {
-  title: "Joe",
-  calc: function () {
-    return 3 + 4;
-  }
-}
+// var view = {
+//   title: "Joe",
+//   calc: function () {
+//     return 3 + 4;
+//   }
+// }
 
 
 
-var output = Mustache.render("{{title}} spends {{calc}}", view)
-console.log(output)
+// var output = Mustache.render("{{title}} spends {{calc}}", view)
+// console.log(output)
 
-var el = document.getElementById('mr');
+// var el = document.getElementById('mr');
 
-// <a href="/javascript/manipulation/creating-a-dom-element-51/">create a new element</a> that will take the place of "el"
-var newEl = document.createElement('div');
-newEl.innerHTML = output;
+// // <a href="/javascript/manipulation/creating-a-dom-element-51/">create a new element</a> that will take the place of "el"
+// var newEl = document.createElement('div');
+// newEl.innerHTML = output;
 
-// replace el with newEL
-el.parentNode.replaceChild(newEl, el);
+// // replace el with newEL
+// el.parentNode.replaceChild(newEl, el);
 
 //channel.push("main", "")
 
@@ -55,15 +57,18 @@ document.getElementById('pass').value = 'Hemligt';
 let templates = {}
 
 //App data storage
-let data = {
+let datas = {
   user: {
     name: "Knut-Kenneth Karlsson"
   }
 }
 
+let ready = []
+
 //Set up a templateChannel and let it get access to the template storage
 templateChannel.init(templates)
 
+//Uncomment to activate data channel login
 /*
 function login() {
   const Http = new XMLHttpRequest();
@@ -85,46 +90,12 @@ function login() {
 }
 */
 
-function doIt(it) {
-  console.log('this is it: ' + it)
-}
 
-//Run when a template has been fetched
-function updateTemplate(templateName, template) {
-  templates[templateName] = template
-  renderView(templateName)
-}
-
-//Renders the given view with the current data
-function renderView(templateName) {
-  var viewData = {}
-  switch (templateName) {
-    case 'main':
-      viewData = data.user
-      break;
-  
-    default:
-      console.log('could not find template')
-      break;
-  }
-
-  console.log('rendering ' + templateName + ' with ')
-  console.log(viewData)
-  var rendered = Mustache.render(templates[templateName], viewData)
-  newEl.innerHTML = rendered;
-}
-
-//Gets the given template and data
-function getViewContent(templateName, domain, content) {
-  templates['main'] = templateChannel.get(templateName, updateTemplate)
-  //dataChannel.get(domain, content)
-}
-
-//Selects what template and what data to get
+//Selects what template to render and where (should perhaps be by requesting el?)
 function navigate(route) {
   switch (route) {
     case 'main':
-      getViewContent('main')
+      renderView('main', 'mr')
       break;
     case 'deck:list':
       console.log('decklist')
@@ -141,33 +112,136 @@ const showTemplates = document.getElementById('show-templates');
 showTemplates.addEventListener('click', () => { console.log(templates) }, false);
 
 const showData = document.getElementById('show-data');
-showData.addEventListener('click', () => { console.log(data) }, false);
+showData.addEventListener('click', () => { console.log(datas) }, false);
 
 const navigateMain = document.getElementById('navigate-main');
 navigateMain.addEventListener('click', () => { navigate('main') }, false);
 
-//            / getTemplate \
-//  renderView                renderView - replaceView
-//            \ getData     /
+//              updateTemplate
+//             / getTemplate \
+//-> renderView                renderContent - replaceView
+//  selectContent \ getData /
+//                 updateData
 
-//function renderView(viewName, target)
-//switch view
-//call getTemplate
-//call getData
-//return void
+//main function to render a view at target
+//decides what should be done and delegates
+//creates a meta packet that will follow through subsequent calls
+//sets of two independent tracks both provided with the same packet
+//one to get the template
+//one to get the data
+function renderView(viewName, target) {
 
-//function? getTemplate(name, target)
-//store template
-//call renderView(target)
+  var fetchPacket = {
+    templateName: selectTemplate(viewName),
+    dataName: selectData(viewName),
+    target: target,     //target to be replaced
+    uuid: createUuid()  //used to unify the results from both tracks
+  }
 
-//function? getData(content, target)
-//store data
-//call renderView(target)
+  console.log(fetchPacket)
 
-//function renderView(target)
-//if template && data 
-//  > render 
-//  > replaceView(taget, content)
-//else -> void
+  getTemplate(fetchPacket)
+  getData(fetchPacket)
+}
 
-//function replaceView(target, content)
+
+//selects which template belongs to the requested view
+function selectTemplate(viewName) {
+
+  switch (viewName) {
+    case 'main':
+      return 'main'
+
+    default:
+      break;
+  }
+}
+
+
+//selects which data belongs to the requested view
+function selectData(viewName) {
+
+  switch (viewName) {
+    case 'main':
+      return 'main'
+
+    default:
+      break;
+  }
+}
+
+
+//fires the templateChannel.get 
+//provides a function that can register the template as callback
+function getTemplate(fetchPacket) {
+  templateChannel.get(fetchPacket, updateTemplate)
+}
+
+
+//provided as callback to function that gets the template
+//updates local template
+//then calls renderContent as the template track is done
+function updateTemplate(fetchPacket, template) {
+  templates[fetchPacket.templateName] = template
+  renderContent(fetchPacket)
+}
+
+
+//fires the dataChannel.get function
+//provides a function that can register the data as callback
+function getData(fetchPacket) {
+
+  //not in list of views with empty/without data 
+  if (fetchPacket.dataName !== 'main') { 
+    dataChannel.get(fetchPacket, updateData)
+  }
+  else {
+    updateData(fetchPacket, {name: "Wolmar den röde"}) //POC data
+  }
+}
+
+
+//provided as callback to function that gets the data
+//updates local data
+//then calls renderContent as the data track is done
+function updateData(fetchPacket, data) {
+  datas[fetchPacket.dataName] = data
+  renderContent(fetchPacket)
+}
+
+
+//main function to execute requested render
+//called separate by both tracks as they finish
+//uses the fetchPacket's uuid to match tracks
+//if the other track has been registerd as done
+//    template and data should both be available
+//    render the template with the data
+//    call replaceView with new content
+//else the other track is not done 
+//    register this track as done
+function renderContent(fetchPacket) {
+
+  //The other track template/data has already finished loading
+  if (ready.indexOf(fetchPacket.uuid) >= 0) {
+
+    ready = ready.filter(e => e !== fetchPacket.uuid)
+    var content = Mustache.render(templates[fetchPacket.templateName], datas[fetchPacket.dataName])
+    replaceView(fetchPacket, content)
+  }
+  else {
+
+    //Registers this template/data track to the items ready to use
+    ready.push(fetchPacket.uuid)
+  }
+}
+
+
+//finds the target
+//replaces with genereated content
+function replaceView(fetchPacket, content) {
+  var el = document.getElementById(fetchPacket.target)
+  var ne = document.createElement('div')
+  ne.innerHTML = content
+  ne.id = fetchPacket.target
+  el.parentNode.replaceChild(ne, el)
+}

@@ -2,7 +2,9 @@
   This is main
   <div id="inner">This is old stuff</div>
 </div>
-<button id="clicker">Main</button>
+
+<div id="page">
+</div>
 
 <div>
   Name: <input type="text" id="name"><br>
