@@ -4,14 +4,15 @@ import { createUuid } from './helpers'
 
 var templateChannel = (function () {
 
+  let url = ""
   let socket = null
   let channel = null
   let templates = null
 
   return {
-    init: function (globalTemplates) {
+    init: function (globalTemplates, socketUrl) {
       templates = globalTemplates
-      console.log(templates)
+      url = socketUrl
 
       socket = new Socket("ws://localhost:4100/socket", { params: {} })
 
@@ -32,13 +33,10 @@ var templateChannel = (function () {
 
     get: function (fetchPacket, callback) {
       console.log("getting template")
-      var template = ''
       channel.push('template', "main")
         .receive("ok", (data) => callback(fetchPacket, data.template))
     }
   }
 })()
-
-
 
 export { templateChannel }

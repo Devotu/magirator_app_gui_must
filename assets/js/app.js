@@ -21,74 +21,46 @@ import "phoenix_html"
 import { createUuid } from './helpers'
 
 import { templateChannel } from "./templatechannel"
-//import { login as dataLogin, get as getData } from "./datasocket"
+import { dataChannel } from "./datachannel"
 
-
-
-// var view = {
-//   title: "Joe",
-//   calc: function () {
-//     return 3 + 4;
-//   }
-// }
-
-
-
-// var output = Mustache.render("{{title}} spends {{calc}}", view)
-// console.log(output)
-
-// var el = document.getElementById('mr');
-
-// // <a href="/javascript/manipulation/creating-a-dom-element-51/">create a new element</a> that will take the place of "el"
-// var newEl = document.createElement('div');
-// newEl.innerHTML = output;
-
-// // replace el with newEL
-// el.parentNode.replaceChild(newEl, el);
-
-//channel.push("main", "")
-
-//console.log("this is teh template: " + getTemplate())
 
 document.getElementById('name').value = 'Adam'
 document.getElementById('pass').value = 'Hemligt';
+
+const templateSocketUrl = "ws://localhost:4100/socket"
+const dataSocketUrl = "ws://localhost:4000/socket"
+const tokenUrl = "http://localhost:4000/api/token/"
 
 //App template storage
 let templates = {}
 
 //App data storage
-let datas = {
-  user: {
-    name: "Knut-Kenneth Karlsson"
-  }
-}
+let datas = {}
 
 let ready = []
 
 //Set up a templateChannel and let it get access to the template storage
-templateChannel.init(templates)
+templateChannel.init(templates, templateSocketUrl)
+dataChannel.init(datas, dataSocketUrl)
 
-//Uncomment to activate data channel login
-/*
+
 function login() {
   const Http = new XMLHttpRequest();
 
   let name = document.getElementById('name').value;
   let pass = document.getElementById('pass').value;
 
-  const url = 'http://localhost:4000/api/token/' + name + '/' + pass;
-  console.log('getting token at ' + url)
+  const url = tokenUrl + name + '/' + pass;
 
   Http.open("GET", url);
   Http.send();
   Http.onreadystatechange = (e) => {
-    console.log('State: ' + Http.readyState + ', status: ' + Http.status)
-    if (Http.readyState == 4 && Http.status == 200) {
-      console.log(JSON.parse(Http.responseText))
+    if (Http.readyState == 4 && Http.status == 200) {      
+      let response = JSON.parse(Http.responseText)
+      dataChannel.connect(response.token)
     }
   }
 }
-*/
 
 
 //Selects what template to render and where (should perhaps be by requesting el?)
