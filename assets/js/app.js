@@ -37,7 +37,10 @@ let templates = {}
 //App data storage
 let datas = {}
 
-let ready = []
+//Tracks completed
+let tracksReady = []
+let userId = 0
+
 
 //Set up a templateChannel and let it get access to the template storage
 templateChannel.init(templates, templateSocketUrl)
@@ -64,10 +67,10 @@ function login() {
 
 
 //Selects what template to render and where (should perhaps be by requesting el?)
-function navigate(route) {
+function navigate(route, params) {
   switch (route) {
     case 'main':
-      renderView('main', 'mr')
+      renderView('main', 'mr', params)
       break;
     case 'deck:list':
       console.log('decklist')
@@ -86,8 +89,11 @@ showTemplates.addEventListener('click', () => { console.log(templates) }, false)
 const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
 
+const showReady = document.getElementById('show-ready');
+showReady.addEventListener('click', () => { console.log(tracksReady) }, false);
+
 const navigateMain = document.getElementById('navigate-main');
-navigateMain.addEventListener('click', () => { navigate('main') }, false);
+navigateMain.addEventListener('click', () => { navigate('main', {}) }, false);
 
 //              updateTemplate
 //             / getTemplate \
@@ -101,7 +107,7 @@ navigateMain.addEventListener('click', () => { navigate('main') }, false);
 //sets of two independent tracks both provided with the same packet
 //one to get the template
 //one to get the data
-function renderView(viewName, target) {
+function renderView(viewName, target, params) {
 
   var fetchPacket = {
     templateName: selectTemplate(viewName),
@@ -113,7 +119,7 @@ function renderView(viewName, target) {
   console.log(fetchPacket)
 
   getTemplate(fetchPacket)
-  getData(fetchPacket)
+  getData(fetchPacket, params)
 }
 
 
@@ -135,7 +141,7 @@ function selectData(viewName) {
 
   switch (viewName) {
     case 'main':
-      return 'main'
+      return 'player:current'
 
     default:
       break;
@@ -161,14 +167,14 @@ function updateTemplate(fetchPacket, template) {
 
 //fires the dataChannel.get function
 //provides a function that can register the data as callback
-function getData(fetchPacket) {
+function getData(fetchPacket, params) {
 
   //not in list of views with empty/without data 
   if (fetchPacket.dataName !== 'main') { 
-    dataChannel.get(fetchPacket, updateData)
+    dataChannel.get(fetchPacket, params, updateData)
   }
   else {
-    updateData(fetchPacket, {name: "Wolmar den röde"}) //POC data
+    updateData(fetchPacket, {}) //View has no data need
   }
 }
 
@@ -194,16 +200,16 @@ function updateData(fetchPacket, data) {
 function renderContent(fetchPacket) {
 
   //The other track template/data has already finished loading
-  if (ready.indexOf(fetchPacket.uuid) >= 0) {
+  if (tracksReady.indexOf(fetchPacket.uuid) >= 0) {
 
-    ready = ready.filter(e => e !== fetchPacket.uuid)
+    tracksReady = tracksReady.filter(e => e !== fetchPacket.uuid)
     var content = Mustache.render(templates[fetchPacket.templateName], datas[fetchPacket.dataName])
     replaceView(fetchPacket, content)
   }
   else {
 
     //Registers this template/data track to the items ready to use
-    ready.push(fetchPacket.uuid)
+    tracksReady.push(fetchPacket.uuid)
   }
 }
 

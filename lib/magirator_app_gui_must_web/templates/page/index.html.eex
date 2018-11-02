@@ -18,6 +18,10 @@
 <div>
   <button id="show-data">Show data</button>
 </div>
+</div>
+<div>
+  <button id="show-ready">Show ready</button>
+</div>
 
 <div>
   <button id="navigate-main">Main</button>

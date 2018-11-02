@@ -25,10 +25,11 @@ var dataChannel = (function () {
         .receive("error", resp => { console.log("Unable to join data", resp) })
     },
 
-    get: function (fetchPacket, callback) {
+    get: function (fetchPacket, params, callback) {
       console.log("getting data")
-      channel.push('template', "main")
-        .receive("data", (data) => callback(fetchPacket, data))
+      console.log(params)
+      channel.push(fetchPacket.dataName, params)
+        .receive("ok", (data) => callback(fetchPacket, data.data))
     }
   }
 })()
