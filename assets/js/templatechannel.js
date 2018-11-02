@@ -4,17 +4,13 @@ import { createUuid } from './helpers'
 
 var templateChannel = (function () {
 
-  let url = ""
   let socket = null
   let channel = null
-  let templates = null
 
   return {
-    init: function (globalTemplates, socketUrl) {
-      templates = globalTemplates
-      url = socketUrl
+    init: function (socketUrl) {
 
-      socket = new Socket("ws://localhost:4100/socket", { params: {} })
+      socket = new Socket(socketUrl, { params: {} })
 
       socket.connect()
 

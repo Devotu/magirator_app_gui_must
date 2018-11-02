@@ -6,11 +6,9 @@ var dataChannel = (function () {
   let url = ""
   let socket = null
   let channel = null
-  let data = null
 
   return {
-    init: function (globalData, socketUrl) {
-      data = globalData
+    init: function (socketUrl) {
       url = socketUrl
     },
 

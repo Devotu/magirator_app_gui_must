@@ -43,8 +43,8 @@ let userId = 0
 
 
 //Set up a templateChannel and let it get access to the template storage
-templateChannel.init(templates, templateSocketUrl)
-dataChannel.init(datas, dataSocketUrl)
+templateChannel.init(templateSocketUrl)
+dataChannel.init(dataSocketUrl)
 
 
 function login() {
