@@ -5,6 +5,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     # import MagiratorAppChannel.DomainRouter
 
     alias MagiratorAppGuiMustWeb.Main
+    alias MagiratorAppGuiMustWeb.Login
 
     require Logger
 
@@ -20,11 +21,12 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
 
     
     #In
+    def handle_in("template", "login", socket) do
+        {:reply, {:ok, %{template: Login.html}}, socket}
+    end
+    
     def handle_in("template", "main", socket) do
-
-        html = Main.html
-
-        {:reply, {:ok, %{template: html}}, socket}
+        {:reply, {:ok, %{template: Main.html}}, socket}
     end
 
     def handle_in(_, _, socket) do

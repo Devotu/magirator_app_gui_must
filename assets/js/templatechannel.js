@@ -28,8 +28,8 @@ var templateChannel = (function () {
     },
 
     get: function (fetchPacket, callback) {
-      console.log("getting template")
-      channel.push('template', "main")
+      console.log("getting template " + fetchPacket.templateName)
+      channel.push('template', fetchPacket.templateName)
         .receive("ok", (data) => callback(fetchPacket, data.template))
     }
   }

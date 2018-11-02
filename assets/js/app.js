@@ -55,10 +55,11 @@ var selectTemplate = function (viewName) {
 
   switch (viewName) {
     case 'main':
-      return 'main'
-
+    case 'login':
+      return viewName
+      
     default:
-      break;
+    return 'none' //No template needed
   }
 }
 
@@ -71,9 +72,10 @@ var selectData = function (viewName) {
       return 'player:current'
 
     default:
-      break;
+      return 'none' //No data needed
   }
 }
+
 
 //Set up and configure components
 templateChannel.init(templateSocketUrl)
@@ -84,6 +86,7 @@ viewRender.init(
   templates, datas)
 
 
+//Special function as it is needed to access the data api
 function login() {
   const Http = new XMLHttpRequest();
 
@@ -118,5 +121,5 @@ showReady.addEventListener('click', () => { console.log(tracksReady) }, false);
 const navigateMain = document.getElementById('navigate-main');
 navigateMain.addEventListener('click', () => { navigate('main', {}) }, false);
 
-
-
+//Start with login view
+viewRender.renderView('login', 'mr', {})

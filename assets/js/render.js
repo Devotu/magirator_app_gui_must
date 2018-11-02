@@ -47,12 +47,11 @@ var viewRender = (function () {
   //provides a function that can register the data as callback
   function getData(fetchPacket, params) {
 
-    //not in list of views with empty/without data 
-    if (fetchPacket.dataName !== 'main') {
-      dChannel.get(fetchPacket, params, updateData)
+    if (fetchPacket.dataName === 'none') {
+      updateData(fetchPacket, {}) //View has no data need
     }
     else {
-      updateData(fetchPacket, {}) //View has no data need
+      dChannel.get(fetchPacket, params, updateData)
     }
   }
 

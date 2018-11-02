@@ -24,7 +24,7 @@ var dataChannel = (function () {
     },
 
     get: function (fetchPacket, params, callback) {
-      console.log("getting data")
+      console.log("getting data " + fetchPacket.dataName)
       console.log(params)
       channel.push(fetchPacket.dataName, params)
         .receive("ok", (data) => callback(fetchPacket, data.data))
