@@ -9,4 +9,17 @@ defmodule MagiratorAppGuiMustWeb.Login do
     </div>
     """
   end
+
+  def behaviour do
+    %{
+      actions: [
+        %{
+          action: "onclick",
+          element: "login",
+          function: "navigate",
+          params: ["main", %{}]
+        }
+      ]
+    }
+  end
 end

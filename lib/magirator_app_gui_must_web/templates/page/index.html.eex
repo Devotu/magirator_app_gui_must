@@ -15,6 +15,9 @@
   <button id="show-templates">Show templates</button>
 </div>
 <div>
+  <button id="show-behaviours">Show behaviours</button>
+</div>
+<div>
   <button id="show-data">Show data</button>
 </div>
 </div>

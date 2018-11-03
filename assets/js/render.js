@@ -18,11 +18,13 @@ import { createUuid } from './helpers'
 var viewRender = (function () {
 
   //Variables declared by running app
+  //t:template, b:behaviour, d:data
   let tSelector = null
   let dSelector = null
   let tChannel = null
   let dChannel = null
   let tStore = null
+  let bStore = null
   let dStore = null
 
   //Internal variables
@@ -38,7 +40,8 @@ var viewRender = (function () {
   //provided as callback to function that gets the template
   //updates local template
   //then calls renderContent as the template track is done
-  function updateTemplate(fetchPacket, template) {
+  function updateTemplate(fetchPacket, template, behaviour) {
+    bStore[fetchPacket.templateName] = behaviour
     tStore[fetchPacket.templateName] = template
     renderContent(fetchPacket)
   }
@@ -88,14 +91,33 @@ var viewRender = (function () {
     }
   }
 
+  //creates a new element from the given content
+  function createElement(fetchPacket, content) {
+    var newElement = document.createElement('div')
+    newElement.innerHTML = content
+    newElement.id = fetchPacket.target
+    console.log(newElement)
+
+    var newElementWithBehaviours = addBehaviours(fetchPacket, newElement)
+
+    return newElementWithBehaviours
+  }
+
+  //add behavious to the given element
+  function addBehaviours(fetchPacket, element) {
+    return element
+  }
+
   //finds the target
   //replaces with genereated content
   function replaceView(fetchPacket, content) {
     var el = document.getElementById(fetchPacket.target)
-    var ne = document.createElement('div')
-    ne.innerHTML = content
-    ne.id = fetchPacket.target
-    el.parentNode.replaceChild(ne, el)
+    var newElement = createElement(fetchPacket, content)
+    // var ne = document.createElement('div')
+    // ne.innerHTML = content
+    // ne.id = fetchPacket.target
+    console.log(newElement)
+    el.parentNode.replaceChild(newElement, el)
   }
 
   return {
@@ -104,12 +126,13 @@ var viewRender = (function () {
     init: function (
       appTemplateChannel, appDataChannel,
       appTemplateSelector, appDataSelector,
-      appTemplates, appDatas) {
+      appTemplates, appBehaviours, appDatas) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
       tSelector = appTemplateSelector
       dSelector = appDataSelector
       tStore = appTemplates
+      bStore = appBehaviours
       dStore = appDatas
     },
 

@@ -32,6 +32,7 @@ const tokenUrl = "http://localhost:4000/api/token/"
 
 //Local storages
 let templates = {} //App template storage
+let behaviours = {} //App behaviour storage
 let datas = {} //App data storage
 
 
@@ -83,7 +84,7 @@ dataChannel.init(dataSocketUrl)
 viewRender.init(
   templateChannel, dataChannel, 
   selectTemplate, selectData,
-  templates, datas)
+  templates, behaviours, datas)
 
 
 //Special function as it is needed to access the data api
@@ -112,11 +113,11 @@ loginButton.addEventListener('click', login, false);
 const showTemplates = document.getElementById('show-templates');
 showTemplates.addEventListener('click', () => { console.log(templates) }, false);
 
+const showBehaviours = document.getElementById('show-behaviours');
+showBehaviours.addEventListener('click', () => { console.log(behaviours) }, false);
+
 const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
-
-const showReady = document.getElementById('show-ready');
-showReady.addEventListener('click', () => { console.log(tracksReady) }, false);
 
 const navigateMain = document.getElementById('navigate-main');
 navigateMain.addEventListener('click', () => { navigate('main', {}) }, false);

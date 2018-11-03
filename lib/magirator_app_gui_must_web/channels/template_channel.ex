@@ -22,11 +22,11 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     
     #In
     def handle_in("template", "login", socket) do
-        {:reply, {:ok, %{template: Login.html}}, socket}
+        {:reply, {:ok, %{template: Login.html, behaviour: Login.behaviour}}, socket}
     end
     
     def handle_in("template", "main", socket) do
-        {:reply, {:ok, %{template: Main.html}}, socket}
+        {:reply, {:ok, %{template: Main.html, behaviour: %{}}}, socket}
     end
 
     def handle_in(_, _, socket) do
