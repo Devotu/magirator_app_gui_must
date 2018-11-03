@@ -20,11 +20,6 @@ var templateChannel = (function () {
       channel.join()
         .receive("ok", resp => { console.log("Joined template successfully", resp) })
         .receive("error", resp => { console.log("Unable to join template", resp) })
-
-      channel.on("main", payload => {
-        console.log(payload)
-        templates['main'] = { main: payload.template }
-      })
     },
 
     get: function (fetchPacket, callback) {
