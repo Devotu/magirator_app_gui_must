@@ -1,11 +1,9 @@
 defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     use Phoenix.Channel
-
-    # alias MagiratorAppChannel.RoutingPacket
-    # import MagiratorAppChannel.DomainRouter
-
+    
     alias MagiratorAppGuiMustWeb.Main
     alias MagiratorAppGuiMustWeb.Login
+    alias MagiratorAppGuiMustWeb.NewDeck
 
     require Logger
 
@@ -27,6 +25,10 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     
     def handle_in("template", "main", socket) do
         {:reply, {:ok, %{template: Main.html, behaviour: Main.behaviour}}, socket}
+    end
+    
+    def handle_in("template", "deck:new", socket) do
+        {:reply, {:ok, %{template: NewDeck.html, behaviour: NewDeck.behaviour}}, socket}
     end
 
     def handle_in(_, _, socket) do

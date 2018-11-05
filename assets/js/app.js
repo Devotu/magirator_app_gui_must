@@ -40,6 +40,7 @@ function navigate(route, params) {
       break;
     case 'deck:new':
       console.log('deck:new')
+      viewRender.renderView('deck:new', 'mr', params)
       break;
     case 'deck:list':
       console.log('decklist')
@@ -69,6 +70,7 @@ var selectTemplate = function (viewName) {
   switch (viewName) {
     case 'main':
     case 'login':
+    case 'deck:new':
       return viewName
       
     default:
@@ -85,6 +87,7 @@ var selectData = function (viewName) {
       return 'player:current'
 
     case 'login':
+    case 'deck:new':
     default:
       return 'none' //No data needed
   }
