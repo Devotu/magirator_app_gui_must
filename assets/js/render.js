@@ -26,6 +26,8 @@ var viewRender = (function () {
   let tStore = null
   let bStore = null
   let dStore = null
+  let login = null
+  let navigator = null
 
   //Internal variables
   let tracksReady = [] //Template/data tracks completed
@@ -51,6 +53,7 @@ var viewRender = (function () {
   function getData(fetchPacket, params) {
 
     if (fetchPacket.dataName === 'none') {
+      fetchPacket.dataName = fetchPacket.templateName
       updateData(fetchPacket, {}) //View has no data need
     }
     else {
@@ -96,15 +99,41 @@ var viewRender = (function () {
     var newElement = document.createElement('div')
     newElement.innerHTML = content
     newElement.id = fetchPacket.target
-    console.log(newElement)
+    return newElement
+  }
 
-    var newElementWithBehaviours = addBehaviours(fetchPacket, newElement)
+  function selectFunction(requestedFunctionName) {
+    switch (requestedFunctionName) {
+      case 'navigate':
+        return navigator
 
-    return newElementWithBehaviours
+      case 'login':
+        return login
+
+      default:
+        break;
+    }
   }
 
   //add behavious to the given element
   function addBehaviours(fetchPacket, element) {
+    let templateBehaviours = bStore[fetchPacket.templateName]
+
+    templateBehaviours.actions.forEach(action => {
+      let el = document.getElementById(action.element)
+      let params = action.params
+      let funct = selectFunction(action.function)
+
+      switch (action.action) {
+        case 'onclick':
+          el.addEventListener('click', () => { funct(params[0], params[1]) }, false)
+          break;
+
+        default:
+          break;
+      }
+    });
+
     return element
   }
 
@@ -113,11 +142,8 @@ var viewRender = (function () {
   function replaceView(fetchPacket, content) {
     var el = document.getElementById(fetchPacket.target)
     var newElement = createElement(fetchPacket, content)
-    // var ne = document.createElement('div')
-    // ne.innerHTML = content
-    // ne.id = fetchPacket.target
-    console.log(newElement)
     el.parentNode.replaceChild(newElement, el)
+    addBehaviours(fetchPacket)
   }
 
   return {
@@ -126,7 +152,8 @@ var viewRender = (function () {
     init: function (
       appTemplateChannel, appDataChannel,
       appTemplateSelector, appDataSelector,
-      appTemplates, appBehaviours, appDatas) {
+      appTemplates, appBehaviours, appDatas,
+      appLogin, appNavigator) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
       tSelector = appTemplateSelector
@@ -134,6 +161,8 @@ var viewRender = (function () {
       tStore = appTemplates
       bStore = appBehaviours
       dStore = appDatas
+      login = appLogin
+      navigator = appNavigator
     },
 
     renderView: function (viewName, target, params) {
@@ -144,8 +173,6 @@ var viewRender = (function () {
         target: target,     //target to be replaced
         uuid: createUuid()  //used to unify the results from both tracks
       }
-
-      console.log(fetchPacket)
 
       getTemplate(fetchPacket)
       getData(fetchPacket, params)

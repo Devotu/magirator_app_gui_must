@@ -22,10 +22,6 @@ import { viewRender } from "./render.js"
 import { templateChannel } from "./templatechannel"
 import { dataChannel } from "./datachannel"
 
-//Dev only
-document.getElementById('name').value = 'Adam'
-document.getElementById('pass').value = 'Hemligt';
-
 const templateSocketUrl = "ws://localhost:4100/socket"
 const dataSocketUrl = "ws://localhost:4000/socket"
 const tokenUrl = "http://localhost:4000/api/token/"
@@ -72,19 +68,11 @@ var selectData = function (viewName) {
     case 'main':
       return 'player:current'
 
+    case 'login':
     default:
       return 'none' //No data needed
   }
 }
-
-
-//Set up and configure components
-templateChannel.init(templateSocketUrl)
-dataChannel.init(dataSocketUrl)
-viewRender.init(
-  templateChannel, dataChannel, 
-  selectTemplate, selectData,
-  templates, behaviours, datas)
 
 
 //Special function as it is needed to access the data api
@@ -102,13 +90,21 @@ function login() {
     if (Http.readyState == 4 && Http.status == 200) {
       let response = JSON.parse(Http.responseText)
       dataChannel.connect(response.token)
+      navigate('main', {})
     }
   }
 }
 
 
-const loginButton = document.getElementById('login');
-loginButton.addEventListener('click', login, false);
+//Set up and configure components
+templateChannel.init(templateSocketUrl)
+dataChannel.init(dataSocketUrl)
+viewRender.init(
+  templateChannel, dataChannel, 
+  selectTemplate, selectData,
+  templates, behaviours, datas,
+  login, navigate)
+
 
 const showTemplates = document.getElementById('show-templates');
 showTemplates.addEventListener('click', () => { console.log(templates) }, false);

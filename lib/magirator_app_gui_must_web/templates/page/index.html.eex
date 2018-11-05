@@ -2,14 +2,7 @@
   Error!
 </div>
 
-<div id="page">
-</div>
 
-<div>
-  Name: <input type="text" id="name"><br>
-  Pass: <input type="text" id="pass"><br>
-  <button id="login">Login</button>
-</div>
 
 <div>
   <button id="show-templates">Show templates</button>
