@@ -28,6 +28,7 @@ var viewRender = (function () {
   let dStore = null
   let login = null
   let navigator = null
+  let executor = null
 
   //Internal variables
   let tracksReady = [] //Template/data tracks completed
@@ -110,6 +111,9 @@ var viewRender = (function () {
       case 'login':
         return login
 
+      case 'execute':
+        return executor
+
       default:
         break;
     }
@@ -153,7 +157,7 @@ var viewRender = (function () {
       appTemplateChannel, appDataChannel,
       appTemplateSelector, appDataSelector,
       appTemplates, appBehaviours, appDatas,
-      appLogin, appNavigator) {
+      appLogin, appNavigator, appExecutor) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
       tSelector = appTemplateSelector
@@ -163,6 +167,7 @@ var viewRender = (function () {
       dStore = appDatas
       login = appLogin
       navigator = appNavigator
+      executor = appExecutor
     },
 
     renderView: function (viewName, target, params) {

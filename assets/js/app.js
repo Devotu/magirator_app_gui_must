@@ -38,11 +38,27 @@ function navigate(route, params) {
     case 'main':
       viewRender.renderView('main', 'mr', params)
       break;
+    case 'deck:new':
+      console.log('deck:new')
+      break;
     case 'deck:list':
       console.log('decklist')
       break;
     default:
       console.log(route)
+  }
+}
+
+//Performes one action
+function execute(action, params) {
+  switch (action) {
+    case 'login':
+      console.log(action)
+      login()
+      break;
+      
+    default:
+      console.log(action)
   }
 }
 
@@ -103,7 +119,7 @@ viewRender.init(
   templateChannel, dataChannel, 
   selectTemplate, selectData,
   templates, behaviours, datas,
-  login, navigate)
+  login, navigate, execute)
 
 
 const showTemplates = document.getElementById('show-templates');
