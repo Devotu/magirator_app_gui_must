@@ -2,9 +2,11 @@ defmodule MagiratorAppGuiMustWeb.Main do
 
   def html do
     """
-    <div>Hello {{name}} from main.html.</div>
-    <button id='new-deck'>New deck</button>
-    <button id='deck-list'>Deck list</button>
+    <div id="main">
+      <div>Hello {{name}} from main.html.</div>
+      <button id='new-deck'>New deck</button>
+      <button id='deck-list'>Deck list</button>
+    </div>
     """
   end
 
