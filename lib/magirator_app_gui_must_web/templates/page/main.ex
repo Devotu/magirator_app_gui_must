@@ -17,13 +17,21 @@ defmodule MagiratorAppGuiMustWeb.Main do
           element: "new-deck",
           action: "onclick",
           function: "navigate",
-          params: ["deck:new", %{}]
+          params: %{
+            action: "deck:new",
+            params: %{},
+            input: []
+          }   
         },
         %{
           element: "deck-list",
           action: "onclick",
           function: "navigate",
-          params: ["deck:list", %{}]
+          params: %{
+            action: "deck:list",
+            params: %{},
+            input: []
+          }   
         }
       ]
     }

@@ -130,7 +130,7 @@ var viewRender = (function () {
 
       switch (action.action) {
         case 'onclick':
-          el.addEventListener('click', () => { funct(params[0], params[1]) }, false)
+          el.addEventListener('click', () => { funct(params) }, false)
           break;
 
         default:

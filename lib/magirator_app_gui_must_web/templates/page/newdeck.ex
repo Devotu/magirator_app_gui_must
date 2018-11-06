@@ -24,8 +24,11 @@ defmodule MagiratorAppGuiMustWeb.NewDeck do
           element: "create",
           action: "onclick",
           function: "execute",
-          params: ["deck:new", %{}],
-          input: ["name", "black", "white"]
+          params: %{
+            action: "deck:new",
+            params: %{},
+            input: ["name", "black", "white"]
+          }          
         }
       ]
     }

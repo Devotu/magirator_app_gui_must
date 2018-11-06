@@ -33,20 +33,22 @@ let datas = {} //App data storage
 
 
 //Selects what template to render and where (should perhaps be by requesting el?)
-function navigate(route, params) {
+function navigate(params) {
+  let route = params.action
+
   switch (route) {
     case 'main':
-      viewRender.renderView('main', 'mr', params)
+      viewRender.renderView('main', 'mr', params.params)
       break;
     case 'deck:new':
       console.log('deck:new')
-      viewRender.renderView('deck:new', 'mr', params)
+      viewRender.renderView('deck:new', 'mr', params.params)
       break;
     case 'deck:list':
       console.log('decklist')
       break;
     default:
-      console.log(route)
+      console.log(params.action)
   }
 }
 
@@ -66,8 +68,7 @@ function extractValue(element) {
 }
 
 
-function gather(paramList) {
-
+function gatherInput(paramList) {
   let data = {}
 
   paramList.forEach(p => {
@@ -85,8 +86,10 @@ function gather(paramList) {
 
 
 //Performes one action
-function execute(action, params) {
-  switch (action) {
+function execute(params) {
+  let action = params.action
+
+  switch (params.action) {
     case 'login':
       console.log(action)
       login()
@@ -94,7 +97,8 @@ function execute(action, params) {
 
     case 'deck:new':
       console.log(action)
-      console.log(gather(["name", "format", "errorz", "black", "white", "blug"]))
+      let input = gatherInput(params.input)
+      console.log(input)
       break;
       
     default:
@@ -148,7 +152,14 @@ function login() {
     if (Http.readyState == 4 && Http.status == 200) {
       let response = JSON.parse(Http.responseText)
       dataChannel.connect(response.token)
-      navigate('main', {})
+
+      let nav = {
+        action: 'main',
+        params: {},
+        input: []
+      }
+
+      navigate(nav)
     }
   }
 }
