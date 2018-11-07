@@ -21,6 +21,7 @@ import "phoenix_html"
 import { viewRender } from "./render.js"
 import { templateChannel } from "./templatechannel"
 import { dataChannel } from "./datachannel"
+import { values } from "./values";
 
 const templateSocketUrl = "ws://localhost:4100/socket"
 const dataSocketUrl = "ws://localhost:4000/socket"
@@ -53,38 +54,6 @@ function navigate(params) {
 }
 
 
-function extractValue(element) {
-  let value = element.value
-  
-  if (value != null && value != undefined) {
-    
-    //Is checkbox
-    if (value === "on") {
-      return document.getElementById(element.id).checked
-    }
-
-    return value
-  }
-}
-
-
-function gatherInput(paramList) {
-  let data = {}
-
-  paramList.forEach(p => {
-    let element = document.getElementById(p)
-
-    if (element != null && element != undefined) {
-      data[p] = extractValue(element)
-    } else {
-      console.log("could not find " + p)
-    }
-  });
-
-  return data
-}
-
-
 //Performes one action
 function execute(params) {
   let action = params.action
@@ -96,10 +65,7 @@ function execute(params) {
       break;
 
     case 'deck:create':
-      console.log(action)
-      let input = gatherInput(params.input)
-      console.log(input)
-
+      let input = values.gatherInput(params.input)
       let callback = function () {
         let nav = {
           action: 'main',
