@@ -42,12 +42,11 @@ function navigate(params) {
       viewRender.renderView('main', 'mr', params.params)
       break;
     case 'deck:new':
-      console.log('deck:new')
       viewRender.renderView('deck:new', 'mr', params.params)
       break;
     case 'deck:list':
-      console.log('decklist')
-      break;
+      console.log('deck - list')
+      viewRender.renderView('deck:list', 'mr', params.params)
     default:
       console.log(params.action)
   }
@@ -89,11 +88,14 @@ function execute(params) {
 var selectTemplate = function (viewName) {
 
   switch (viewName) {
+    //Same as viewName
     case 'main':
     case 'login':
     case 'deck:new':
+    case 'deck:list':
       return viewName
       
+    //No template needed
     default:
     return 'none' //No template needed
   }
@@ -104,13 +106,19 @@ var selectTemplate = function (viewName) {
 var selectData = function (viewName) {
 
   switch (viewName) {
+    //Specified data
     case 'main':
       return 'player:current'
 
+    //Same as viewName
+    case 'deck:list':
+      return viewName
+
+    //No data needed
     case 'login':
     case 'deck:new':
     default:
-      return 'none' //No data needed
+      return 'none' 
   }
 }
 

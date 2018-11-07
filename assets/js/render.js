@@ -66,7 +66,11 @@ var viewRender = (function () {
   //updates local data
   //then calls renderContent as the data track is done
   function updateData(fetchPacket, data) {
-    dStore[fetchPacket.dataName] = data
+    let dataContent = {}
+    console.log(dataContent)
+    dataContent[fetchPacket.dataName] = data
+    console.log(dataContent)
+    dStore[fetchPacket.dataName] = dataContent
     renderContent(fetchPacket)
   }
 
@@ -85,6 +89,9 @@ var viewRender = (function () {
     if (tracksReady.indexOf(fetchPacket.uuid) >= 0) {
 
       tracksReady = tracksReady.filter(e => e !== fetchPacket.uuid)
+      console.log(tStore[fetchPacket.templateName])
+      console.log(dStore[fetchPacket.dataName])
+      console.log(dStore[fetchPacket.dataName][fetchPacket.dataName])
       var content = Mustache.render(tStore[fetchPacket.templateName], dStore[fetchPacket.dataName])
       replaceView(fetchPacket, content)
     }

@@ -3,7 +3,7 @@ defmodule MagiratorAppGuiMustWeb.Main do
   def html do
     """
     <div id="main">
-      <div>Hello {{name}} from main.html.</div>
+      <div>Hello {{player:current.name}} from main.html.</div>
       <button id='new-deck'>New deck</button>
       <button id='deck-list'>Deck list</button>
     </div>
