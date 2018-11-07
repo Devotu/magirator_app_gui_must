@@ -2,7 +2,7 @@ defmodule MagiratorAppGuiMustWeb.NewDeck do
 
   def html do
     """
-    <div id="new:deck">
+    <div id="deck:new">
       Name: <input type="text" id="name"></br>
       Theme: <input type="text" id="theme"></br>
       Format: <input type="text" id="format"></br>
@@ -25,9 +25,9 @@ defmodule MagiratorAppGuiMustWeb.NewDeck do
           action: "onclick",
           function: "execute",
           params: %{
-            action: "deck:new",
+            action: "deck:create",
             params: %{},
-            input: ["name", "black", "white"]
+            input: ["name", "theme", "format", "black", "white", "red", "green", "blue", "colorless"]
           }          
         }
       ]

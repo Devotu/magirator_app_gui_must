@@ -95,10 +95,22 @@ function execute(params) {
       login()
       break;
 
-    case 'deck:new':
+    case 'deck:create':
       console.log(action)
       let input = gatherInput(params.input)
       console.log(input)
+
+      let callback = function () {
+        let nav = {
+          action: 'main',
+          params: {},
+          input: []
+        }
+  
+        navigate(nav)
+      }
+
+      dataChannel.create("deck", input, callback)
       break;
       
     default:

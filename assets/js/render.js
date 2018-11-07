@@ -58,7 +58,7 @@ var viewRender = (function () {
       updateData(fetchPacket, {}) //View has no data need
     }
     else {
-      dChannel.get(fetchPacket, params, updateData)
+      dChannel.show(fetchPacket, params, updateData)
     }
   }
 
