@@ -1,4 +1,4 @@
-defmodule MagiratorAppGuiMustWeb.NewDeck do
+defmodule MagiratorAppGuiMustWeb.DeckNew do
 
   def html do
     """

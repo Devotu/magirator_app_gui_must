@@ -4,6 +4,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     alias MagiratorAppGuiMustWeb.Main
     alias MagiratorAppGuiMustWeb.Login
     alias MagiratorAppGuiMustWeb.NewDeck
+    alias MagiratorAppGuiMustWeb.DeckNew
 
     require Logger
 
@@ -29,6 +30,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     
     def handle_in("template", "deck:new", socket) do
         {:reply, {:ok, %{template: NewDeck.html, behaviour: NewDeck.behaviour}}, socket}
+        {:reply, {:ok, %{template: DeckNew.html, behaviour: DeckNew.behaviour}}, socket}
     end
 
     def handle_in(_, _, socket) do
