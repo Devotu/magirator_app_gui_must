@@ -4,8 +4,8 @@ defmodule MagiratorAppGuiMustWeb.Main do
     """
     <div id="main">
       <div>Hello {{player:current.name}} from main.html.</div>
-      <button id='new-deck'>New deck</button>
-      <button id='deck-list'>Deck list</button>
+      <button name='new-deck'>New deck</button>
+      <button name='deck-list'>Deck list</button>
     </div>
     """
   end

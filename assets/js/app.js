@@ -34,7 +34,7 @@ let datas = {} //App data storage
 
 
 //Selects what template to render and where (should perhaps be by requesting el?)
-function navigate(params) {
+function navigate(params, id) {
   let route = params.action
 
   switch (route) {
@@ -54,7 +54,7 @@ function navigate(params) {
 
 
 //Performes one action
-function execute(params) {
+function execute(params, id) {
   let action = params.action
 
   switch (params.action) {
@@ -64,7 +64,7 @@ function execute(params) {
       break;
 
     case 'deck:create':
-      let input = values.gatherInput(params.input)
+      let deck_create_input = values.gatherInput(params.input)
       let callback = function () {
         let nav = {
           action: 'main',
@@ -75,7 +75,11 @@ function execute(params) {
         navigate(nav)
       }
 
-      dataChannel.create("deck", input, callback)
+      dataChannel.create("deck", deck_create_input, callback)
+      break;
+
+    case 'log':
+      console.log('executed by:' + id)
       break;
       
     default:

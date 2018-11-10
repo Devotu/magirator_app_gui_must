@@ -5,7 +5,7 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
     <div id="deck:new">
       <ul>
         {{#deck:list}}
-        <li>
+        <li name="deck" id="{{id}}">
           {{name}}
         </li>
         {{/deck:list}}
@@ -16,7 +16,17 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
     
   def behaviour do
     %{
-      actions: [ ]
+      actions: [
+        %{
+          element: "deck",
+          action: "onclick",
+          function: "execute",
+          params: %{
+            action: "log",
+            params: %{}
+          }          
+        }
+      ]
     }
   end
 end

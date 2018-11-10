@@ -12,7 +12,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
       Green: <input type="checkbox" id="green"></br>
       Blue: <input type="checkbox" id="blue"></br>
       Colorless: <input type="checkbox" id="colorless"></br>
-      <button type="button" id="create">Create</button>
+      <button type="button" name="create">Create</button>
     </div>
     """
   end

@@ -24,17 +24,12 @@ var dataChannel = (function () {
     },
 
     show: function (fetchPacket, params, callback) {
-      console.log("showing data " + fetchPacket.dataName)
-      console.log(params)
       channel.push(fetchPacket.dataName, params)
         .receive("ok", (data) => callback(fetchPacket, data.data))
     },
 
     create: function (target, params, callback) {
-      console.log("creating data " + target)
-      console.log(params)
       channel.push(target + ":create", params)
-        // .receive("ok", (data) => callback(data.data))
         .receive("ok", () => callback())
         .receive("error", (data) => console.log(data))
     }
