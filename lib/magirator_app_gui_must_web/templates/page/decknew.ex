@@ -13,6 +13,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
       Blue: <input type="checkbox" id="blue"></br>
       Colorless: <input type="checkbox" id="colorless"></br>
       <button type="button" name="create">Create</button>
+      </br><button type="button" name="back">Main</button>
     </div>
     """
   end
@@ -28,6 +29,16 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
             action: "deck:create",
             params: %{},
             input: ["name", "theme", "format", "black", "white", "red", "green", "blue", "colorless"]
+          }          
+        },
+        %{
+          element: "back",
+          action: "onclick",
+          function: "navigate",
+          params: %{
+            action: "main",
+            params: %{},
+            input: []
           }          
         }
       ]

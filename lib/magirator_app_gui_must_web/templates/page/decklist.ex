@@ -11,6 +11,7 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
         {{/deck:list}}
       </ul>
     </div>
+    </br><button type="button" name="back">Main</button>
     """
   end
     
@@ -24,6 +25,16 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
           params: %{
             action: "log",
             params: %{}
+          }          
+        },
+        %{
+          element: "back",
+          action: "onclick",
+          function: "navigate",
+          params: %{
+            action: "main",
+            params: %{},
+            input: []
           }          
         }
       ]
