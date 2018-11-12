@@ -2,18 +2,23 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
 
   def html do
     """
+    <div id="game:register">
     <br>
     Deck: <br>
-    <select>
+    <select name="deck-select">
       <option value="0">Select deck</option>
+      {{#deck:list}}
+      <option value="{{id}}">{{name}}</option>
+      {{/deck:list}}
     </select>
     
     <br><br>
 
     Opponent:<br>
-    <select>
-      <option value="0">Select opponent</option>
-    </select>
+    <div name="opponent-select" id="opponent:select"></div>
+
+    Opponent deck:<br>
+    <div id="opponent:deck"></div>
 
     <br><br>
 
@@ -28,6 +33,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     <br><br>
 
     <input type="button" name="cancel" value="Cancel"></button>
+    </div>
     """
   end
 
@@ -36,7 +42,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
       actions: [
         %{
           element: "register",
-          action: "onclick",
+          action: "click",
           function: "execute",
           params: %{
             action: "game:register",
@@ -46,10 +52,21 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
         },
         %{
           element: "cancel",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "main",
+            params: %{},
+            input: []
+          }   
+        },
+        %{
+          element: "deck-select",
+          action: "change",
+          function: "insert",
+          params: %{
+            target: "opponent:select",
+            action: "player:list",
             params: %{},
             input: []
           }   

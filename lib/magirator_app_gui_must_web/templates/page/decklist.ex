@@ -20,7 +20,7 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
       actions: [
         %{
           element: "deck",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "deck:show",
@@ -30,7 +30,7 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
         },
         %{
           element: "back",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "main",

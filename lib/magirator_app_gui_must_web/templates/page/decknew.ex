@@ -23,7 +23,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
       actions: [
         %{
           element: "create",
-          action: "onclick",
+          action: "click",
           function: "execute",
           params: %{
             action: "deck:create",
@@ -33,7 +33,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
         },
         %{
           element: "back",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "main",

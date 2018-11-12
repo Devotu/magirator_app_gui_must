@@ -33,7 +33,7 @@ let behaviours = {} //App behaviour storage
 let datas = {} //App data storage
 
 
-//Selects what template to render and where (should perhaps be by requesting el?)
+//Selects what page template to render and where (should perhaps be by requesting el?)
 function navigate(params, id) {
   let route = params.action
 
@@ -48,11 +48,11 @@ function navigate(params, id) {
       viewRender.renderView('deck:list', 'mr', params.params)
       break;
     case 'deck:show':
-      viewRender.renderView('deck:show', 'mr', {deck_id: id})
+      viewRender.renderView('deck:show', 'mr', { deck_id: id })
       break;
-      case 'game:register':
-        viewRender.renderView('game:register', 'mr', params.params)
-        break;
+    case 'game:register':
+      viewRender.renderView('game:register', 'mr', params.params)
+      break;
     default:
       console.log("route not found: " + route)
   }
@@ -76,7 +76,7 @@ function execute(params, id) {
           params: {},
           input: []
         }
-  
+
         navigate(nav)
       }
 
@@ -86,7 +86,24 @@ function execute(params, id) {
     case 'log':
       console.log('executed by:' + id)
       break;
-      
+
+    default:
+      console.log(action)
+  }
+}
+
+
+//Selects what component template to render and where
+function insert(params, id, target) {
+  let action = params.action
+
+  switch (action) {
+
+    case 'player:list':
+      let callback = viewRender.renderView(action, target, params.params)
+      dataChannel.show(action, {}, callback)
+      break;
+
     default:
       console.log(action)
   }
@@ -105,10 +122,10 @@ var selectTemplate = function (viewName) {
     case 'deck:show':
     case 'game:register':
       return viewName
-      
+
     //No template needed
     default:
-    return 'none' //No template needed
+      return 'none' //No template needed
   }
 }
 
@@ -121,6 +138,9 @@ var selectData = function (viewName) {
     case 'main':
       return 'player:current'
 
+    case 'game:register':
+      return 'deck:list'
+
     //Same as viewName
     case 'deck:list':
     case 'deck:show':
@@ -131,7 +151,7 @@ var selectData = function (viewName) {
     case 'deck:new':
     case 'game:register':
     default:
-      return 'none' 
+      return 'none'
   }
 }
 
@@ -168,10 +188,10 @@ function login() {
 templateChannel.init(templateSocketUrl)
 dataChannel.init(dataSocketUrl)
 viewRender.init(
-  templateChannel, dataChannel, 
+  templateChannel, dataChannel,
   selectTemplate, selectData,
   templates, behaviours, datas,
-  login, navigate, execute)
+  login, navigate, execute, insert)
 
 
 const showTemplates = document.getElementById('show-templates');

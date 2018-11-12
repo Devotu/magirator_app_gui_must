@@ -16,7 +16,7 @@ defmodule MagiratorAppGuiMustWeb.Main do
       actions: [
         %{
           element: "new-deck",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "deck:new",
@@ -26,7 +26,7 @@ defmodule MagiratorAppGuiMustWeb.Main do
         },
         %{
           element: "deck-list",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "deck:list",
@@ -36,7 +36,7 @@ defmodule MagiratorAppGuiMustWeb.Main do
         },
         %{
           element: "game-register",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "game:register",

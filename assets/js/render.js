@@ -29,6 +29,7 @@ var viewRender = (function () {
   let login = null
   let navigator = null
   let executor = null
+  let inserter = null
 
   //Internal variables
   let tracksReady = [] //Template/data tracks completed
@@ -116,6 +117,9 @@ var viewRender = (function () {
       case 'execute':
         return executor
 
+      case 'insert':
+        return inserter
+
       default:
         break;
     }
@@ -124,14 +128,16 @@ var viewRender = (function () {
   //add behavious to the given element
   function addBehaviours(fetchPacket, element) {
     let templateBehaviours = bStore[fetchPacket.templateName]
-    let data = dStore[fetchPacket.dataName]
 
     templateBehaviours.actions.forEach(action => {
       let funct = selectFunction(action.function)
       let els = document.getElementsByName(action.element)
 
-      els.forEach( function(e){
-        e.addEventListener('click', () => { funct(action.params, e.id) }, false)
+      els.forEach(function (e) {
+        console.log(e)
+        console.log(action)
+        console.log(funct)
+        e.addEventListener(action.action, () => { funct(action.params, e.id, action.target) }, false)
       })
     });
 
@@ -154,7 +160,7 @@ var viewRender = (function () {
       appTemplateChannel, appDataChannel,
       appTemplateSelector, appDataSelector,
       appTemplates, appBehaviours, appDatas,
-      appLogin, appNavigator, appExecutor) {
+      appLogin, appNavigator, appExecutor, appInserter) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
       tSelector = appTemplateSelector
@@ -165,6 +171,7 @@ var viewRender = (function () {
       login = appLogin
       navigator = appNavigator
       executor = appExecutor
+      inserter = appInserter
     },
 
     renderView: function (viewName, target, params) {

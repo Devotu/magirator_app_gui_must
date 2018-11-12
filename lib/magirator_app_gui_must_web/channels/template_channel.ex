@@ -45,6 +45,10 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     def handle_in("template", "game:register", socket) do
         {:reply, {:ok, %{template: GameRegister.html, behaviour: GameRegister.behaviour}}, socket}
     end
+    
+    def handle_in("template", "select:player", socket) do
+        {:reply, {:ok, %{template: PlayerSelect.html, behaviour: PlayerSelect.behaviour}}, socket}
+    end
 
     def handle_in(_, _, socket) do
         Logger.debug "No such template"        

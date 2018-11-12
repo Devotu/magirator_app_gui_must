@@ -14,7 +14,7 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
       actions: [
         %{
           element: "back",
-          action: "onclick",
+          action: "click",
           function: "navigate",
           params: %{
             action: "deck:list",
