@@ -50,8 +50,11 @@ function navigate(params, id) {
     case 'deck:show':
       viewRender.renderView('deck:show', 'mr', {deck_id: id})
       break;
+      case 'game:register':
+        viewRender.renderView('game:register', 'mr', params.params)
+        break;
     default:
-      console.log("route not found")
+      console.log("route not found: " + route)
   }
 }
 
@@ -100,6 +103,7 @@ var selectTemplate = function (viewName) {
     case 'deck:new':
     case 'deck:list':
     case 'deck:show':
+    case 'game:register':
       return viewName
       
     //No template needed
@@ -125,6 +129,7 @@ var selectData = function (viewName) {
     //No data needed
     case 'login':
     case 'deck:new':
+    case 'game:register':
     default:
       return 'none' 
   }

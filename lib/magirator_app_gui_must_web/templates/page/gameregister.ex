@@ -1,0 +1,60 @@
+defmodule MagiratorAppGuiMustWeb.GameRegister do
+
+  def html do
+    """
+    <br>
+    Deck: <br>
+    <select>
+      <option value="0">Select deck</option>
+    </select>
+    
+    <br><br>
+
+    Opponent:<br>
+    <select>
+      <option value="0">Select opponent</option>
+    </select>
+
+    <br><br>
+
+    <input type="radio" name="result" value="win"> Win
+    <input type="radio" name="result" value="draw"> Draw
+    <input type="radio" name="result" value="loss"> Loss
+    
+    <br><br>
+
+    <input type="button" name="register" value="Register"></button>
+
+    <br><br>
+
+    <input type="button" name="cancel" value="Cancel"></button>
+    """
+  end
+
+  def behaviour do
+    %{
+      actions: [
+        %{
+          element: "register",
+          action: "onclick",
+          function: "execute",
+          params: %{
+            action: "game:register",
+            params: %{},
+            input: []
+          }   
+        },
+        %{
+          element: "cancel",
+          action: "onclick",
+          function: "navigate",
+          params: %{
+            action: "main",
+            params: %{},
+            input: []
+          }   
+        }
+      ]
+    }
+  end
+end

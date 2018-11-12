@@ -3,9 +3,10 @@ defmodule MagiratorAppGuiMustWeb.Main do
   def html do
     """
     <div id="main">
-      <div>Hello {{player:current.name}} from main.html.</div>
-      <button name='new-deck'>New deck</button>
-      <button name='deck-list'>Deck list</button>
+      <div>Hello {{player:current.name}} from main.html.</div><br>
+      <button name='new-deck'>New deck</button><br>
+      <button name='deck-list'>Deck list</button><br>
+      <button name='game-register'>Register game</button><br>
     </div>
     """
   end
@@ -32,6 +33,16 @@ defmodule MagiratorAppGuiMustWeb.Main do
             params: %{},
             input: []
           }   
+        },
+        %{
+          element: "game-register",
+          action: "onclick",
+          function: "navigate",
+          params: %{
+            action: "game:register",
+            params: %{},
+            input: []
+          }
         }
       ]
     }
