@@ -55,7 +55,7 @@ var viewRender = (function () {
 
     if (fetchPacket.dataName === 'none') {
       fetchPacket.dataName = fetchPacket.templateName
-      updateData(fetchPacket, {}) //View has no data need
+      updateData(fetchPacket, params) //View has no data need
     }
     else {
       dChannel.show(fetchPacket, params, updateData)
@@ -131,7 +131,6 @@ var viewRender = (function () {
       let els = document.getElementsByName(action.element)
 
       els.forEach( function(e){
-        console.log(e)
         e.addEventListener('click', () => { funct(action.params, e.id) }, false)
       })
     });

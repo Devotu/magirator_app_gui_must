@@ -45,10 +45,13 @@ function navigate(params, id) {
       viewRender.renderView('deck:new', 'mr', params.params)
       break;
     case 'deck:list':
-      console.log('deck - list')
       viewRender.renderView('deck:list', 'mr', params.params)
+      break;
+    case 'deck:show':
+      viewRender.renderView('deck:show', 'mr', {deck_id: id})
+      break;
     default:
-      console.log(params.action)
+      console.log("route not found")
   }
 }
 
@@ -59,7 +62,6 @@ function execute(params, id) {
 
   switch (params.action) {
     case 'login':
-      console.log(action)
       login()
       break;
 
@@ -97,6 +99,7 @@ var selectTemplate = function (viewName) {
     case 'login':
     case 'deck:new':
     case 'deck:list':
+    case 'deck:show':
       return viewName
       
     //No template needed
@@ -116,6 +119,7 @@ var selectData = function (viewName) {
 
     //Same as viewName
     case 'deck:list':
+    case 'deck:show':
       return viewName
 
     //No data needed
@@ -173,9 +177,6 @@ showBehaviours.addEventListener('click', () => { console.log(behaviours) }, fals
 
 const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
-
-const navigateMain = document.getElementById('navigate-main');
-navigateMain.addEventListener('click', () => { navigate('main', {}) }, false);
 
 //Start with login view
 viewRender.renderView('login', 'mr', {})

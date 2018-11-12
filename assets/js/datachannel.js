@@ -26,6 +26,7 @@ var dataChannel = (function () {
     show: function (fetchPacket, params, callback) {
       channel.push(fetchPacket.dataName, params)
         .receive("ok", (data) => callback(fetchPacket, data.data))
+        .receive("error", (data) => console.log(data))
     },
 
     create: function (target, params, callback) {
