@@ -134,10 +134,7 @@ var viewRender = (function () {
       let els = document.getElementsByName(action.element)
 
       els.forEach(function (e) {
-        console.log(e)
-        console.log(action)
-        console.log(funct)
-        e.addEventListener(action.action, () => { funct(action.params, e.id, action.target) }, false)
+        e.addEventListener(action.action, () => { funct(action.params, e.id) }, false)
       })
     });
 

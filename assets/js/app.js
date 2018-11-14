@@ -94,18 +94,17 @@ function execute(params, id) {
 
 
 //Selects what component template to render and where
-function insert(params, id, target) {
-  let action = params.action
+function insert(params, _id) {
+  let viewName = params.action
+  
+  switch (viewName) {
 
-  switch (action) {
-
-    case 'player:list':
-      let callback = viewRender.renderView(action, target, params.params)
-      dataChannel.show(action, {}, callback)
+    case 'player:select':
+      viewRender.renderView(viewName, params.target, params.params)
       break;
 
     default:
-      console.log(action)
+      console.log(viewName)
   }
 }
 
@@ -121,6 +120,7 @@ var selectTemplate = function (viewName) {
     case 'deck:list':
     case 'deck:show':
     case 'game:register':
+    case 'player:select':
       return viewName
 
     //No template needed
@@ -140,6 +140,9 @@ var selectData = function (viewName) {
 
     case 'game:register':
       return 'deck:list'
+
+    case 'player:select':
+      return 'player:list'
 
     //Same as viewName
     case 'deck:list':

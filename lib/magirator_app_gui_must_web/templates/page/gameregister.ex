@@ -66,7 +66,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           function: "insert",
           params: %{
             target: "opponent:select",
-            action: "player:list",
+            action: "player:select",
             params: %{},
             input: []
           }   
