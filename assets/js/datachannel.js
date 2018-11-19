@@ -23,9 +23,9 @@ var dataChannel = (function () {
         .receive("error", resp => { console.log("Unable to join data", resp) })
     },
 
-    show: function (fetchPacket, params, callback) {
-      channel.push(fetchPacket.dataName, params)
-        .receive("ok", (data) => callback(fetchPacket, data.data))
+    show: function (name, params, callback, callbackData) {
+      channel.push(name, params)
+        .receive("ok", (data) => callback(name, data.data, callbackData))
         .receive("error", (data) => console.log(data))
     },
 

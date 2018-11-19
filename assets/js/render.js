@@ -32,7 +32,7 @@ var viewRender = (function () {
   let inserter = null
 
   //Internal variables
-  let tracksReady = [] //Template/data tracks completed
+  let tracksReady = {} //Template/data tracks completed
 
 
   //fires the tChannel.get 
@@ -54,22 +54,28 @@ var viewRender = (function () {
   //provides a function that can register the data as callback
   function getData(fetchPacket, params) {
 
-    if (fetchPacket.dataName === 'none') {
-      fetchPacket.dataName = fetchPacket.templateName
-      updateData(fetchPacket, params) //View has no data need
-    }
-    else {
-      dChannel.show(fetchPacket, params, updateData)
-    }
+    fetchPacket.dataNames.forEach(name => {
+      dChannel.show(name, params, updateData, fetchPacket)
+    })
+
+    // if (fetchPacket.dataNames == 0) {
+    //   fetchPacket.dataNames = fetchPacket.templateName
+    //   updateData(fetchPacket.templateName, {}, fetchPacket) //View has no data need
+    // }
+    // else {
+    //   fetchPacket.dataNames.forEach(name => {
+    //     dChannel.show(name, params, updateData, fetchPacket)
+    //   })
+    // }
   }
 
   //provided as callback to function that gets the data
   //updates local data
   //then calls renderContent as the data track is done
-  function updateData(fetchPacket, data) {
+  function updateData(dataName, data, fetchPacket) {
     let dataContent = {}
-    dataContent[fetchPacket.dataName] = data
-    dStore[fetchPacket.dataName] = dataContent
+    dataContent[dataName] = data
+    dStore[dataName] = dataContent
     renderContent(fetchPacket)
   }
 
@@ -84,17 +90,28 @@ var viewRender = (function () {
   //    register this track as done
   function renderContent(fetchPacket) {
 
-    //The other track template/data has already finished loading
-    if (tracksReady.indexOf(fetchPacket.uuid) >= 0) {
-
-      tracksReady = tracksReady.filter(e => e !== fetchPacket.uuid)
-      var content = Mustache.render(tStore[fetchPacket.templateName], dStore[fetchPacket.dataName])
-      replaceView(fetchPacket, content)
+    //If the packet uuid does not exist
+    //Add the packet uuid with number of expected tracks not yet finished
+    if (typeof tracksReady[fetchPacket.uuid] === 'undefined') {
+      tracksReady[fetchPacket.uuid] = fetchPacket.tracks
     }
-    else {
 
-      //Registers this template/data track to the items ready to use
-      tracksReady.push(fetchPacket.uuid)
+    //Reduce the number of expected tracks by one
+    tracksReady[fetchPacket.uuid]--
+
+    //If there are no expected tracks left
+    //Remove the uuid
+    //Replace view
+    if (tracksReady[fetchPacket.uuid] == 0) {
+      tracksReady[fetchPacket.uuid] = fetchPacket.tracks
+
+      let contentData = {}
+      fetchPacket.dataNames.forEach(dn => {
+        contentData[dn] = dStore[dn][dn]
+      })
+
+      var content = Mustache.render(tStore[fetchPacket.templateName], contentData)
+      replaceView(fetchPacket, content)
     }
   }
 
@@ -173,10 +190,14 @@ var viewRender = (function () {
 
     renderView: function (viewName, target, params) {
 
+      let templateName =  tSelector(viewName)
+      let dataNames = dSelector(viewName)
+
       var fetchPacket = {
-        templateName: tSelector(viewName),
-        dataName: dSelector(viewName),
+        templateName: templateName,
+        dataNames: dataNames,
         target: target,     //target to be replaced
+        tracks: 1 + dataNames.length, //number of expected task tracks
         uuid: createUuid()  //used to unify the results from both tracks
       }
 

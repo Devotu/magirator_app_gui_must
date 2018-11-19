@@ -14,11 +14,23 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     
     <br><br>
 
+
+    <select id="player:select">
+      <option value="0">Select player</option>
+      {{#player:list}}
+      <option value="{{id}}">{{name}}</option>
+      {{/player:list}}
+    </select>
+
+    <br><br>
+
     Opponent:<br>
     <div name="opponent-select" id="opponent:select"></div>
 
+    
+
     Opponent deck:<br>
-    <div id="opponent:deck"></div>
+    <div name="opponent-deck" id="opponent:deck"></div>
 
     <br><br>
 
@@ -71,6 +83,17 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
             input: []
           }   
         }
+        # %{
+        #   element: "opponent-select",
+        #   action: "change",
+        #   function: "insert",
+        #   params: %{
+        #     target: "opponent:deck",
+        #     action: "player:select",
+        #     params: %{},
+        #     input: []
+        #   }
+        # }
       ]
     }
   end

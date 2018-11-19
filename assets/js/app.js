@@ -136,25 +136,25 @@ var selectData = function (viewName) {
   switch (viewName) {
     //Specified data
     case 'main':
-      return 'player:current'
+      return ['player:current']
 
     case 'game:register':
-      return 'deck:list'
+      return ['deck:list', 'player:list']
 
     case 'player:select':
-      return 'player:list'
+      return ['player:list']
 
     //Same as viewName
     case 'deck:list':
     case 'deck:show':
-      return viewName
+      return [viewName]
 
     //No data needed
     case 'login':
     case 'deck:new':
     case 'game:register':
     default:
-      return 'none'
+      return []
   }
 }
 
