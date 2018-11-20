@@ -36,23 +36,21 @@ let datas = {} //App data storage
 //Selects what page template to render and where (should perhaps be by requesting el?)
 function navigate(params, id) {
   let route = params.action
+  let pageDiv = 'mr'
 
   switch (route) {
-    case 'main':
-      viewRender.renderView('main', 'mr', params.params)
-      break;
-    case 'deck:new':
-      viewRender.renderView('deck:new', 'mr', params.params)
-      break;
-    case 'deck:list':
-      viewRender.renderView('deck:list', 'mr', params.params)
-      break;
     case 'deck:show':
-      viewRender.renderView('deck:show', 'mr', { deck_id: id })
+      viewRender.renderView('deck:show', pageDiv, { deck_id: id })
       break;
+
+    //Same mr with same as route
+    case 'main':
+    case 'deck:new':
+    case 'deck:list':
     case 'game:register':
-      viewRender.renderView('game:register', 'mr', params.params)
+      viewRender.renderView(route, pageDiv, params.params, params.data)
       break;
+
     default:
       console.log("route not found: " + route)
   }
@@ -96,7 +94,7 @@ function execute(params, id) {
 //Selects what component template to render and where
 function insert(params, _id) {
   let viewName = params.action
-  
+
   switch (viewName) {
 
     case 'player:select':

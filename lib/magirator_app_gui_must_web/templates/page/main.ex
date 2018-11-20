@@ -47,4 +47,10 @@ defmodule MagiratorAppGuiMustWeb.Main do
       ]
     }
   end
+
+  def data do
+    %{
+      view: ["player:current"]
+    }
+  end
 end
