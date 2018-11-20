@@ -28,7 +28,7 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
 
   def data do
     %{
-      view: ["deck:show"]
+      objects: ["deck:show"]
     }
   end
 end

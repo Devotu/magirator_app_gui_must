@@ -48,7 +48,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     end
     
     def handle_in("template", "player:select", socket) do
-        {:reply, {:ok, %{template: PlayerSelect.html, behaviour: PlayerSelect.behaviour}}, socket}
+        {:reply, {:ok, %{template: PlayerSelect.html, behaviour: PlayerSelect.behaviour, data: PlayerSelect.data}}, socket}
     end
 
     def handle_in(_, _, socket) do

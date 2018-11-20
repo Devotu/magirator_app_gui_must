@@ -37,6 +37,8 @@ let datas = {} //App data storage
 function navigate(params, id) {
   let route = params.action
   let pageDiv = 'mr'
+  console.log('navigate')
+  console.log(params)
 
   switch (route) {
     case 'deck:show':
@@ -48,7 +50,7 @@ function navigate(params, id) {
     case 'deck:new':
     case 'deck:list':
     case 'game:register':
-      viewRender.renderView(route, pageDiv, params.params, params.data)
+      viewRender.renderView(route, pageDiv, params.params)
       break;
 
     default:
@@ -128,34 +130,6 @@ var selectTemplate = function (viewName) {
 }
 
 
-//selects which data belongs to the requested view
-var selectData = function (viewName) {
-
-  switch (viewName) {
-    //Specified data
-    case 'main':
-      return ['player:current']
-
-    case 'game:register':
-      return ['deck:list', 'player:list']
-
-    case 'player:select':
-      return ['player:list']
-
-    //Same as viewName
-    case 'deck:list':
-    case 'deck:show':
-      return [viewName]
-
-    //No data needed
-    case 'login':
-    case 'deck:new':
-    default:
-      return []
-  }
-}
-
-
 //Special function as it is needed to access the data api
 function login() {
   const Http = new XMLHttpRequest();
@@ -189,7 +163,7 @@ templateChannel.init(templateSocketUrl)
 dataChannel.init(dataSocketUrl)
 viewRender.init(
   templateChannel, dataChannel,
-  selectTemplate, selectData,
+  selectTemplate,
   templates, behaviours, datas,
   login, navigate, execute, insert)
 

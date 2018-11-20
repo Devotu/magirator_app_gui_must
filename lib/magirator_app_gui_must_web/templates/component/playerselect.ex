@@ -17,4 +17,10 @@ defmodule MagiratorAppGuiMustWeb.PlayerSelect do
       ]
     }
   end
+
+  def data do
+    %{
+      objects: ["player:list"]
+    }
+  end
 end

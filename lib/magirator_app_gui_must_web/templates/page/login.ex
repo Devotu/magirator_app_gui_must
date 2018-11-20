@@ -28,6 +28,8 @@ defmodule MagiratorAppGuiMustWeb.Login do
   end
   
   def data do
-    %{}
+    %{
+      objects: []
+    }
   end
 end

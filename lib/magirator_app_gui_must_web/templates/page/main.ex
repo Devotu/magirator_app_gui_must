@@ -50,7 +50,7 @@ defmodule MagiratorAppGuiMustWeb.Main do
 
   def data do
     %{
-      view: ["player:current"]
+      objects: ["player:current"]
     }
   end
 end

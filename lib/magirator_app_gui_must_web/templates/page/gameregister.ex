@@ -100,7 +100,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
 
   def data do
     %{
-      view: ["deck:list", "player:list"]
+      objects: ["deck:list", "player:list"]
     }
   end
 end
