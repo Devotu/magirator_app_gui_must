@@ -97,4 +97,10 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
       ]
     }
   end
+
+  def data do
+    %{
+      view: ["deck:list", "player:list"]
+    }
+  end
 end

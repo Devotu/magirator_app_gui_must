@@ -44,4 +44,8 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
       ]
     }
   end
+
+  def data do
+    %{}
+  end
 end

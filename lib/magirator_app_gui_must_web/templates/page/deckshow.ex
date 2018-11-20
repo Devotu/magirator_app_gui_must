@@ -25,4 +25,10 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
       ]
     }
   end
+
+  def data do
+    %{
+      view: ["deck:show"]
+    }
+  end
 end

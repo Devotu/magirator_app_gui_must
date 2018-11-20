@@ -26,4 +26,8 @@ defmodule MagiratorAppGuiMustWeb.Login do
       ]
     }
   end
+  
+  def data do
+    %{}
+  end
 end

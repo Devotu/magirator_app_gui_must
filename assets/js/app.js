@@ -150,7 +150,6 @@ var selectData = function (viewName) {
     //No data needed
     case 'login':
     case 'deck:new':
-    case 'game:register':
     default:
       return []
   }

@@ -41,4 +41,10 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
       ]
     }
   end
+
+  def data do
+    %{
+      view: ["deck:list"]
+    }
+  end
 end

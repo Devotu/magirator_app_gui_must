@@ -24,7 +24,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     
     #In
     def handle_in("template", "login", socket) do
-        {:reply, {:ok, %{template: Login.html, behaviour: Login.behaviour}}, socket}
+        {:reply, {:ok, %{template: Login.html, behaviour: Login.behaviour, data: Login.data}}, socket}
     end
     
     def handle_in("template", "main", socket) do
@@ -32,19 +32,19 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     end
     
     def handle_in("template", "deck:new", socket) do
-        {:reply, {:ok, %{template: DeckNew.html, behaviour: DeckNew.behaviour}}, socket}
+        {:reply, {:ok, %{template: DeckNew.html, behaviour: DeckNew.behaviour, data: DeckNew.data}}, socket}
     end
     
     def handle_in("template", "deck:list", socket) do
-        {:reply, {:ok, %{template: DeckList.html, behaviour: DeckList.behaviour}}, socket}
+        {:reply, {:ok, %{template: DeckList.html, behaviour: DeckList.behaviour,  data: DeckList.data}}, socket}
     end
     
     def handle_in("template", "deck:show", socket) do
-        {:reply, {:ok, %{template: DeckShow.html, behaviour: DeckShow.behaviour}}, socket}
+        {:reply, {:ok, %{template: DeckShow.html, behaviour: DeckShow.behaviour,  data: DeckShow.data}}, socket}
     end
     
     def handle_in("template", "game:register", socket) do
-        {:reply, {:ok, %{template: GameRegister.html, behaviour: GameRegister.behaviour}}, socket}
+        {:reply, {:ok, %{template: GameRegister.html, behaviour: GameRegister.behaviour,  data: GameRegister.data}}, socket}
     end
     
     def handle_in("template", "player:select", socket) do
