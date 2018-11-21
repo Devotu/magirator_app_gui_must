@@ -67,12 +67,12 @@ var viewRender = (function () {
 
   //fires the dChannel.get function
   //provides a function that can register the data as callback
-  function fetchData(fetchPacket, dataNames, params) {
+  function fetchData(fetchPacket, dataNames) {
 
     //If there is data to fetch
     if (dataNames.length > 0) {
       dataNames.forEach(name => {
-        dChannel.show(name, params, updateData, fetchPacket)
+        dChannel.show(name, fetchPacket.params, updateData, fetchPacket)
       })
     }
     //Otherwise just get on with render 
@@ -210,6 +210,7 @@ var viewRender = (function () {
       let fetchPacket = {
         templateName: templateName,
         target: target,     //target to be replaced
+        params: params,     
         uuid: createUuid()  //used to unify the results from this track
       }
 
