@@ -24,7 +24,7 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
           function: "navigate",
           params: %{
             action: "deck:show",
-            params: %{},
+            params: %{id: "deck_id"},
             input: []
           }          
         },
@@ -39,6 +39,12 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
           }          
         }
       ]
+    }
+  end
+
+  def data do
+    %{
+      objects: ["deck:list"]
     }
   end
 end

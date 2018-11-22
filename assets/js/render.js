@@ -20,7 +20,6 @@ var viewRender = (function () {
   //Variables declared by running app
   //t:template, b:behaviour, d:data
   let tSelector = null
-  let dSelector = null
   let tChannel = null
   let dChannel = null
   let tStore = null
@@ -43,30 +42,43 @@ var viewRender = (function () {
 
   //provided as callback to function that gets the template
   //updates local template
-  //then calls renderContent as the template track is done
-  function updateTemplate(fetchPacket, template, behaviour) {
-    bStore[fetchPacket.templateName] = behaviour
+  //then calls getData to fetch all data requirements described by the template
+  function updateTemplate(fetchPacket, template, behaviour, dataNames) {
+    
+    //Store associated template and behaviour
     tStore[fetchPacket.templateName] = template
-    renderContent(fetchPacket)
+    bStore[fetchPacket.templateName] = behaviour
+
+    //Fetch and update data requried by the template
+    updateTemplateData(fetchPacket, dataNames)
+  }
+
+  function updateTemplateData(fetchPacket, dataNames) {
+
+    //Record how many data sources are expected to be fetched
+    tracksReady[fetchPacket.uuid] = dataNames.length
+
+    //Inform the packet which data is expected to be present when tracks are finished
+    fetchPacket.dataNames = dataNames
+
+    //With expected data recorded set of the fetch procedure
+    fetchData(fetchPacket, dataNames)
   }
 
   //fires the dChannel.get function
   //provides a function that can register the data as callback
-  function getData(fetchPacket, params) {
+  function fetchData(fetchPacket, dataNames) {
 
-    fetchPacket.dataNames.forEach(name => {
-      dChannel.show(name, params, updateData, fetchPacket)
-    })
-
-    // if (fetchPacket.dataNames == 0) {
-    //   fetchPacket.dataNames = fetchPacket.templateName
-    //   updateData(fetchPacket.templateName, {}, fetchPacket) //View has no data need
-    // }
-    // else {
-    //   fetchPacket.dataNames.forEach(name => {
-    //     dChannel.show(name, params, updateData, fetchPacket)
-    //   })
-    // }
+    //If there is data to fetch
+    if (dataNames.length > 0) {
+      dataNames.forEach(name => {
+        dChannel.show(name, fetchPacket.params, updateData, fetchPacket)
+      })
+    }
+    //Otherwise just get on with render 
+    else {
+      renderContent(fetchPacket)
+    }
   }
 
   //provided as callback to function that gets the data
@@ -90,20 +102,10 @@ var viewRender = (function () {
   //    register this track as done
   function renderContent(fetchPacket) {
 
-    //If the packet uuid does not exist
-    //Add the packet uuid with number of expected tracks not yet finished
-    if (typeof tracksReady[fetchPacket.uuid] === 'undefined') {
-      tracksReady[fetchPacket.uuid] = fetchPacket.tracks
-    }
-
-    //Reduce the number of expected tracks by one
-    tracksReady[fetchPacket.uuid]--
-
     //If there are no expected tracks left
-    //Remove the uuid
+    //Generate composite data
     //Replace view
-    if (tracksReady[fetchPacket.uuid] == 0) {
-      tracksReady[fetchPacket.uuid] = fetchPacket.tracks
+    if (dataReady(fetchPacket)) {
 
       let contentData = {}
       fetchPacket.dataNames.forEach(dn => {
@@ -113,6 +115,20 @@ var viewRender = (function () {
       var content = Mustache.render(tStore[fetchPacket.templateName], contentData)
       replaceView(fetchPacket, content)
     }
+  }
+
+  function dataReady(fetchPacket) {
+
+    //If there was no need for data 
+    if (tracksReady[fetchPacket.uuid] === 0) {
+      return true
+    }
+
+    //Otherwise reduce the number of expected by one as this track is done
+    tracksReady[fetchPacket.uuid]--
+
+    //Ready if there then are no further data sources expected
+    return tracksReady[fetchPacket.uuid] === 0
   }
 
   //creates a new element from the given content
@@ -172,13 +188,12 @@ var viewRender = (function () {
     //Load with app specific template selectors
     init: function (
       appTemplateChannel, appDataChannel,
-      appTemplateSelector, appDataSelector,
+      appTemplateSelector,
       appTemplates, appBehaviours, appDatas,
       appLogin, appNavigator, appExecutor, appInserter) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
       tSelector = appTemplateSelector
-      dSelector = appDataSelector
       tStore = appTemplates
       bStore = appBehaviours
       dStore = appDatas
@@ -190,19 +205,16 @@ var viewRender = (function () {
 
     renderView: function (viewName, target, params) {
 
-      let templateName =  tSelector(viewName)
-      let dataNames = dSelector(viewName)
+      let templateName = tSelector(viewName)
 
-      var fetchPacket = {
+      let fetchPacket = {
         templateName: templateName,
-        dataNames: dataNames,
         target: target,     //target to be replaced
-        tracks: 1 + dataNames.length, //number of expected task tracks
-        uuid: createUuid()  //used to unify the results from both tracks
+        params: params,     
+        uuid: createUuid()  //used to unify the results from this track
       }
 
       getTemplate(fetchPacket)
-      getData(fetchPacket, params)
     }
   }
 })()

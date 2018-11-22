@@ -21,7 +21,7 @@ import "phoenix_html"
 import { viewRender } from "./render.js"
 import { templateChannel } from "./templatechannel"
 import { dataChannel } from "./datachannel"
-import { values } from "./values";
+import { values as valueHelper } from "./values";
 
 const templateSocketUrl = "ws://localhost:4100/socket"
 const dataSocketUrl = "ws://localhost:4000/socket"
@@ -36,23 +36,24 @@ let datas = {} //App data storage
 //Selects what page template to render and where (should perhaps be by requesting el?)
 function navigate(params, id) {
   let route = params.action
+  let pageDiv = 'mr'
+
+  let renderParams = {}
+
+  if (typeof params.params.id !== 'undefined') {
+    renderParams[params.params.id] = id
+  }
 
   switch (route) {
+    //Same mr with same as route
     case 'main':
-      viewRender.renderView('main', 'mr', params.params)
-      break;
     case 'deck:new':
-      viewRender.renderView('deck:new', 'mr', params.params)
-      break;
-    case 'deck:list':
-      viewRender.renderView('deck:list', 'mr', params.params)
-      break;
     case 'deck:show':
-      viewRender.renderView('deck:show', 'mr', { deck_id: id })
-      break;
+    case 'deck:list':
     case 'game:register':
-      viewRender.renderView('game:register', 'mr', params.params)
+      viewRender.renderView(route, pageDiv, renderParams)
       break;
+
     default:
       console.log("route not found: " + route)
   }
@@ -69,7 +70,7 @@ function execute(params, id) {
       break;
 
     case 'deck:create':
-      let deck_create_input = values.gatherInput(params.input)
+      let deck_create_input = valueHelper.gatherInput(params.input)
       let callback = function () {
         let nav = {
           action: 'main',
@@ -96,7 +97,7 @@ function execute(params, id) {
 //Selects what component template to render and where
 function insert(params, _id) {
   let viewName = params.action
-  
+
   switch (viewName) {
 
     case 'player:select':
@@ -126,35 +127,6 @@ var selectTemplate = function (viewName) {
     //No template needed
     default:
       return 'none' //No template needed
-  }
-}
-
-
-//selects which data belongs to the requested view
-var selectData = function (viewName) {
-
-  switch (viewName) {
-    //Specified data
-    case 'main':
-      return ['player:current']
-
-    case 'game:register':
-      return ['deck:list', 'player:list']
-
-    case 'player:select':
-      return ['player:list']
-
-    //Same as viewName
-    case 'deck:list':
-    case 'deck:show':
-      return [viewName]
-
-    //No data needed
-    case 'login':
-    case 'deck:new':
-    case 'game:register':
-    default:
-      return []
   }
 }
 
@@ -192,7 +164,7 @@ templateChannel.init(templateSocketUrl)
 dataChannel.init(dataSocketUrl)
 viewRender.init(
   templateChannel, dataChannel,
-  selectTemplate, selectData,
+  selectTemplate,
   templates, behaviours, datas,
   login, navigate, execute, insert)
 
