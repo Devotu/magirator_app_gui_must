@@ -21,7 +21,7 @@ import "phoenix_html"
 import { viewRender } from "./render.js"
 import { templateChannel } from "./templatechannel"
 import { dataChannel } from "./datachannel"
-import { values } from "./values";
+import { values as valueHelper } from "./values";
 
 const templateSocketUrl = "ws://localhost:4100/socket"
 const dataSocketUrl = "ws://localhost:4000/socket"
@@ -37,20 +37,21 @@ let datas = {} //App data storage
 function navigate(params, id) {
   let route = params.action
   let pageDiv = 'mr'
-  console.log('navigate')
-  console.log(params)
+
+  let renderParams = {}
+
+  if (typeof params.params.id !== 'undefined') {
+    renderParams[params.params.id] = id
+  }
 
   switch (route) {
-    case 'deck:show':
-      viewRender.renderView('deck:show', pageDiv, { deck_id: id })
-      break;
-
     //Same mr with same as route
     case 'main':
     case 'deck:new':
+    case 'deck:show':
     case 'deck:list':
     case 'game:register':
-      viewRender.renderView(route, pageDiv, params.params)
+      viewRender.renderView(route, pageDiv, renderParams)
       break;
 
     default:
@@ -69,7 +70,7 @@ function execute(params, id) {
       break;
 
     case 'deck:create':
-      let deck_create_input = values.gatherInput(params.input)
+      let deck_create_input = valueHelper.gatherInput(params.input)
       let callback = function () {
         let nav = {
           action: 'main',
