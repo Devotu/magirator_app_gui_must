@@ -13,14 +13,19 @@ defmodule MagiratorAppGuiMustWeb.PlayerSelect do
     
   def behaviour do
     %{
-      actions: [
-      ]
+      actions: []
     }
   end
 
   def data do
     %{
       objects: ["player:list"]
+    }
+  end
+
+  def components do
+    %{
+      components: []
     }
   end
 end

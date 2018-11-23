@@ -15,7 +15,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     <br><br>
 
 
-    <select id="player:select">                     TODO MAKE AS COMPONENT
+    <select id="player:select">
       <option value="0">Select player</option>
       {{#player:list}}
       <option value="{{id}}">{{name}}</option>
@@ -101,6 +101,19 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
   def data do
     %{
       objects: ["deck:list", "player:list"]
+    }
+  end
+
+  def components do
+    %{
+      components: [
+        %{
+          name: "player:select",
+          target: "opponent-select",
+          params: %{},
+          components: []
+        }
+      ]
     }
   end
 end

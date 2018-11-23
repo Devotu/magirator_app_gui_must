@@ -50,4 +50,10 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
       objects: []
     }
   end
+
+  def components do
+    %{
+      components: []
+    }
+  end
 end

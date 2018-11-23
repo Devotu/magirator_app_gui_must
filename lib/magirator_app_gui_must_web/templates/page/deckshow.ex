@@ -31,4 +31,10 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
       objects: ["deck:show"]
     }
   end
+
+  def components do
+    %{
+      components: []
+    }
+  end
 end

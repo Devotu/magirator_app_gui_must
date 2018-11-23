@@ -32,4 +32,10 @@ defmodule MagiratorAppGuiMustWeb.Login do
       objects: []
     }
   end
+
+  def components do
+    %{
+      components: []
+    }
+  end
 end

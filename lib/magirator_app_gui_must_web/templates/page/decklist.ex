@@ -47,4 +47,10 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
       objects: ["deck:list"]
     }
   end
+
+  def components do
+    %{
+      components: []
+    }
+  end
 end

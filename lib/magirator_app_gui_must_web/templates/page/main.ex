@@ -53,4 +53,10 @@ defmodule MagiratorAppGuiMustWeb.Main do
       objects: ["player:current"]
     }
   end
+
+  def components do
+    %{
+      components: []
+    }
+  end
 end
