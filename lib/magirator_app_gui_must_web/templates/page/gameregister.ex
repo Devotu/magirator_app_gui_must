@@ -5,12 +5,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     <div id="game:register">
     <br>
     Deck: <br>
-    <select name="deck-select">
-      <option value="0">Select deck</option>
-      {{#deck:list}}
-      <option value="{{id}}">{{name}}</option>
-      {{/deck:list}}
-    </select>
+    <div name="played-deck" id="played:deck"></div>
 
     <br><br>
 
@@ -59,17 +54,6 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
             params: %{},
             input: []
           }   
-        },
-        %{
-          element: "opponent-select",
-          action: "change",
-          function: "insert",
-          params: %{
-            target: "opponent:deck",
-            action: "player:select",
-            params: %{},
-            input: []
-          }
         }
       ]
     }
@@ -88,11 +72,22 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           name: "player:select",
           target: "opponent:select",
           params: %{},
+          actions: %{
+            element: "opponent-select",
+            action: "change",
+            function: "insert",
+            params: %{
+              target: "opponent:deck",
+              action: "player:select",
+              params: %{},
+              input: []
+            }
+          },
           components: []
         },
         %{
           name: "deck:select",
-          target: "opponent:deck",
+          target: "played:deck",
           params: %{},
           components: []
         }

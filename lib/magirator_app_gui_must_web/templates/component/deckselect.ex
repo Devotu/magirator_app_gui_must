@@ -2,7 +2,7 @@ defmodule MagiratorAppGuiMustWeb.DeckSelect do
 
   def html do
     """
-    <select id="deck:select">
+    <select id="deck:select" name="deck-select">
       <option value="0">Select deck</option>
       {{#deck:list}}
       <option value="{{id}}">{{name}}</option>

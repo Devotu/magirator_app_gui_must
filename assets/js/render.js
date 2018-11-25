@@ -169,8 +169,8 @@ var viewRender = (function () {
       let funct = selectFunction(action.function)
       let els = document.getElementsByName(action.element)
 
-      els.forEach(function (e) {
-        e.addEventListener(action.action, () => { funct(action.params, e.id) }, false)
+      els.forEach((el) => {
+        el.addEventListener(action.action, () => { funct(action.params, el.id) }, false)
       })
     });
 
@@ -178,7 +178,6 @@ var viewRender = (function () {
   }
 
   function addComponents(fetchPacket) {
-    console.log(fetchPacket.components)
     fetchPacket.components.forEach(c => {
       renderTemplate(c.name, c.target, c.params, c.components)
     })
