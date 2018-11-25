@@ -51,7 +51,7 @@ function navigate(params, id) {
     case 'deck:show':
     case 'deck:list':
     case 'game:register':
-      viewRender.renderView(route, pageDiv, renderParams)
+      viewRender.renderView(route, pageDiv, renderParams, [])
       break;
 
     default:
@@ -86,6 +86,7 @@ function execute(params, id) {
 
     case 'log':
       console.log('executed by:' + id)
+      console.log(params)
       break;
 
     default:
@@ -96,20 +97,21 @@ function execute(params, id) {
 
 //Selects what component template to render and where
 function insert(params, _id) {
-  let viewName = params.action
+  let componentName = params.action
 
-  switch (viewName) {
+  switch (componentName) {
 
     case 'player:select':
-      viewRender.renderView(viewName, params.target, params.params)
+    case 'deck:select':
+      viewRender.renderView(componentName, params.target, params.params, [])
       break;
 
     default:
-      console.log(viewName)
+      console.log(componentName)
   }
 }
 
-
+//TODO Remove?
 //selects which template belongs to the requested view
 var selectTemplate = function (viewName) {
 
@@ -122,6 +124,7 @@ var selectTemplate = function (viewName) {
     case 'deck:show':
     case 'game:register':
     case 'player:select':
+    case 'deck:select':
       return viewName
 
     //No template needed
@@ -179,4 +182,4 @@ const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
 
 //Start with login view
-viewRender.renderView('login', 'mr', {})
+viewRender.renderView('login', 'mr', {}, [])

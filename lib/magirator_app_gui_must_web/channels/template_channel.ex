@@ -8,6 +8,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     alias MagiratorAppGuiMustWeb.DeckShow
     alias MagiratorAppGuiMustWeb.GameRegister
     alias MagiratorAppGuiMustWeb.PlayerSelect
+    alias MagiratorAppGuiMustWeb.DeckSelect
 
     require Logger
 
@@ -23,6 +24,8 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
 
     
     #In
+
+    ## Views
     def handle_in("template", "login", socket) do
         {:reply, {:ok, %{
             template: Login.html, 
@@ -77,6 +80,8 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
             }}, socket}
     end
     
+
+    ## Components
     def handle_in("template", "player:select", socket) do
         {:reply, {:ok, %{
             template: PlayerSelect.html, 
@@ -85,6 +90,16 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
             components: PlayerSelect.components
             }}, socket}
     end
+
+    def handle_in("template", "deck:select", socket) do
+        {:reply, {:ok, %{
+            template: DeckSelect.html, 
+            behaviour: DeckSelect.behaviour, 
+            data: DeckSelect.data,
+            components: DeckSelect.components
+            }}, socket}
+    end
+
 
     def handle_in(_, _, socket) do
         Logger.debug "No such template"        

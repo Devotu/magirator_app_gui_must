@@ -43,11 +43,14 @@ var viewRender = (function () {
   //provided as callback to function that gets the template
   //updates local template
   //then calls getData to fetch all data requirements described by the template
-  function updateTemplate(fetchPacket, template, behaviour, dataNames) {
-    
+  function updateTemplate(fetchPacket, template, behaviour, dataNames, components) {
+
     //Store associated template and behaviour
     tStore[fetchPacket.templateName] = template
     bStore[fetchPacket.templateName] = behaviour
+
+    //Add the components to the render data
+    fetchPacket.components = components
 
     //Fetch and update data requried by the template
     updateTemplateData(fetchPacket, dataNames)
@@ -174,6 +177,13 @@ var viewRender = (function () {
     return element
   }
 
+  function addComponents(fetchPacket) {
+    console.log(fetchPacket.components)
+    fetchPacket.components.forEach(c => {
+      renderTemplate(c.name, c.target, c.params, c.components)
+    })
+  }
+
   //finds the target
   //replaces with genereated content
   function replaceView(fetchPacket, content) {
@@ -181,6 +191,23 @@ var viewRender = (function () {
     var newElement = createElement(fetchPacket, content)
     el.parentNode.replaceChild(newElement, el)
     addBehaviours(fetchPacket)
+    addComponents(fetchPacket)
+  }
+
+  //Not returned to be locally available
+  function renderTemplate(name, target, params, components) {
+
+    let templateName = tSelector(name)
+
+    let fetchPacket = {
+      templateName: templateName,
+      target: target,     //target to be replaced
+      params: params,
+      components: components,
+      uuid: createUuid()  //used to unify the results from this track
+    }
+
+    getTemplate(fetchPacket)
   }
 
   return {
@@ -203,18 +230,8 @@ var viewRender = (function () {
       inserter = appInserter
     },
 
-    renderView: function (viewName, target, params) {
-
-      let templateName = tSelector(viewName)
-
-      let fetchPacket = {
-        templateName: templateName,
-        target: target,     //target to be replaced
-        params: params,     
-        uuid: createUuid()  //used to unify the results from this track
-      }
-
-      getTemplate(fetchPacket)
+    renderView: function (viewName, target, params, components) {
+      renderTemplate(viewName, target, params, components)
     }
   }
 })()
