@@ -69,26 +69,24 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     %{
       components: [
         %{
-          name: "player:select",
+          templateName: "player:select",
           target: "opponent:select",
           params: %{},
-          actions: %{
-            element: "opponent-select",
-            action: "change",
+          function: %{
             function: "insert",
             params: %{
+              templateName: "deck:select",
               target: "opponent:deck",
-              action: "player:select",
-              params: %{},
-              input: []
+              params: %{}
             }
           },
           components: []
         },
         %{
-          name: "deck:select",
+          templateName: "deck:select",
           target: "played:deck",
           params: %{},
+          function: %{},
           components: []
         }
       ]

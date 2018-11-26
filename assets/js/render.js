@@ -47,7 +47,7 @@ var viewRender = (function () {
 
     //Store associated template and behaviour
     tStore[fetchPacket.templateName] = template
-    bStore[fetchPacket.templateName] = behaviour
+    bStore[fetchPacket.target] = behaviour
 
     //Add the components to the render data
     fetchPacket.components = components
@@ -163,7 +163,7 @@ var viewRender = (function () {
 
   //add behavious to the given element
   function addBehaviours(fetchPacket, element) {
-    let templateBehaviours = bStore[fetchPacket.templateName]
+    let templateBehaviours = bStore[fetchPacket.target]
 
     templateBehaviours.actions.forEach(action => {
       let funct = selectFunction(action.function)
@@ -179,12 +179,13 @@ var viewRender = (function () {
 
   function addComponents(fetchPacket) {
     fetchPacket.components.forEach(c => {
-      renderTemplate(c.name, c.target, c.params, c.components)
+      renderTemplate(c.templateName, c.target, c.params, c.components)
     })
   }
 
   //finds the target
   //replaces with genereated content
+  //when all is done add behaviours and components
   function replaceView(fetchPacket, content) {
     var el = document.getElementById(fetchPacket.target)
     var newElement = createElement(fetchPacket, content)
