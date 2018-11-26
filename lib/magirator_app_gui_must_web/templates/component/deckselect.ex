@@ -13,7 +13,12 @@ defmodule MagiratorAppGuiMustWeb.DeckSelect do
     
   def behaviour do
     %{
-      actions: []
+      actions: [
+        %{
+          funct: "append",
+          params: %{}
+        }
+      ]
     }
   end
 

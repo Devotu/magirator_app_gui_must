@@ -38,7 +38,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
         %{
           element: "register",
           action: "click",
-          function: "execute",
+          funct: "execute",
           params: %{
             action: "game:register",
             params: %{},
@@ -48,7 +48,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
         %{
           element: "cancel",
           action: "click",
-          function: "navigate",
+          funct: "navigate",
           params: %{
             action: "main",
             params: %{},
@@ -69,24 +69,29 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     %{
       components: [
         %{
-          templateName: "player:select",
+          action: "player:select",
           target: "opponent:select",
           params: %{},
-          function: %{
-            function: "insert",
+          funct: %{
+            element: "player-select",
+            action: "change",
+            funct: "insert",
             params: %{
-              templateName: "deck:select",
               target: "opponent:deck",
-              params: %{}
+              action: "deck:select",
+              params: %{},
+              input: []
             }
           },
           components: []
         },
         %{
-          templateName: "deck:select",
+          action: "deck:select",
           target: "played:deck",
           params: %{},
-          function: %{},
+          funct: %{
+            funct: "none"
+          },
           components: []
         }
       ]

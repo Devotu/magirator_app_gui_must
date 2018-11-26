@@ -10,23 +10,17 @@ defmodule MagiratorAppGuiMustWeb.PlayerSelect do
     </select>
     """
   end
- 
+    
   def behaviour do
     %{
       actions: [
-      %{
-        element: "player-select",
-        action: "change",
-        function: "insert",
-        params: %{
-          target: "opponent:deck",
-          action: "deck:select",
-          params: %{},
-          input: []
+        %{
+          funct: "append",
+          params: %{}
         }
-      }]
+      ]
     }
-  end   
+  end 
 
   def data do
     %{

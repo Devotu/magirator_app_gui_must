@@ -16,7 +16,7 @@ defmodule MagiratorAppGuiMustWeb.Login do
         %{
           element: "login",
           action: "click",
-          function: "execute",
+          funct: "execute",
           params: %{
             action: "login",
             params: %{},

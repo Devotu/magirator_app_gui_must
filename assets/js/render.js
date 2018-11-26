@@ -156,6 +156,12 @@ var viewRender = (function () {
       case 'insert':
         return inserter
 
+      case 'append':
+        return 'append'
+
+      case 'none':
+        return 'none'
+
       default:
         break;
     }
@@ -166,12 +172,21 @@ var viewRender = (function () {
     let templateBehaviours = bStore[fetchPacket.target]
 
     templateBehaviours.actions.forEach(action => {
-      let funct = selectFunction(action.function)
+
+      if (action.funct === 'append') {
+        action = fetchPacket.componentFunction
+      }
+
+      let funct = selectFunction(action.funct)
       let els = document.getElementsByName(action.element)
 
-      els.forEach((el) => {
-        el.addEventListener(action.action, () => { funct(action.params, el.id) }, false)
-      })
+      if (funct !== 'none') {
+        els.forEach((el) => {
+          el.addEventListener(action.action, () => { funct(action.params, el.id) }, false)
+        })
+      } else {
+        console.log('no functions to register')
+      }
     });
 
     return element
@@ -179,7 +194,7 @@ var viewRender = (function () {
 
   function addComponents(fetchPacket) {
     fetchPacket.components.forEach(c => {
-      renderTemplate(c.templateName, c.target, c.params, c.components)
+      renderTemplate(c.action, c.target, c.params, c.components, c.funct)
     })
   }
 
@@ -195,7 +210,7 @@ var viewRender = (function () {
   }
 
   //Not returned to be locally available
-  function renderTemplate(name, target, params, components) {
+  function renderTemplate(name, target, params, components, componentFunction) {
 
     let templateName = tSelector(name)
 
@@ -204,6 +219,7 @@ var viewRender = (function () {
       target: target,     //target to be replaced
       params: params,
       components: components,
+      componentFunction: componentFunction,
       uuid: createUuid()  //used to unify the results from this track
     }
 

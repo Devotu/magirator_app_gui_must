@@ -94,7 +94,7 @@ function execute(params, id) {
   }
 }
 
-
+//TODO remove?
 //Selects what component template to render and where
 function insert(params, _id) {
   let componentName = params.action
@@ -107,7 +107,9 @@ function insert(params, _id) {
       break;
 
     default:
+      console.log('default')
       console.log(componentName)
+      viewRender.renderView(componentName, params.target, params.params, [])
   }
 }
 
