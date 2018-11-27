@@ -72,7 +72,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           action: "player:select",
           target: "opponent:select",
           params: %{},
-          funct: %{
+          cfunct: %{
             element: "player-select",
             action: "change",
             funct: "insert",
@@ -89,7 +89,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           action: "deck:select",
           target: "played:deck",
           params: %{},
-          funct: %{
+          cfunct: %{
             funct: "none"
           },
           components: []

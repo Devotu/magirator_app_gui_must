@@ -142,6 +142,7 @@ var viewRender = (function () {
     return newElement
   }
 
+  //which of these available actions is supplied
   function selectFunction(requestedFunctionName) {
     switch (requestedFunctionName) {
       case 'navigate':
@@ -173,7 +174,8 @@ var viewRender = (function () {
 
     templateBehaviours.actions.forEach(action => {
 
-      if (action.funct === 'append') {
+      //If an action is open to be overridden and such an overriding action exist
+      if (action.funct === 'append' && typeof fetchPacket.componentFunction !== 'undefined') {
         action = fetchPacket.componentFunction
       }
 
@@ -194,7 +196,7 @@ var viewRender = (function () {
 
   function addComponents(fetchPacket) {
     fetchPacket.components.forEach(c => {
-      renderTemplate(c.action, c.target, c.params, c.components, c.funct)
+      renderTemplate(c.action, c.target, c.params, c.components, c.cfunct)
     })
   }
 
