@@ -78,8 +78,8 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
             funct: "insert",
             params: %{
               target: "opponent:deck",
-              action: "deck:select",
-              params: %{},
+              action: "player:decks",
+              params: %{value: "id"},
               input: []
             }
           },

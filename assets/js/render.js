@@ -184,7 +184,7 @@ var viewRender = (function () {
 
       if (funct !== 'none') {
         els.forEach((el) => {
-          el.addEventListener(action.action, () => { funct(action.params, el.id) }, false)
+          el.addEventListener(action.action, () => { funct(action.params, el.id, el.value) }, false)
         })
       } else {
         console.log('no functions to register')

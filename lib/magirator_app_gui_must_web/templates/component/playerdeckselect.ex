@@ -1,4 +1,4 @@
-defmodule MagiratorAppGuiMustWeb.DeckSelect do
+defmodule MagiratorAppGuiMustWeb.PlayerDeckSelect do
 
   def html do
     """
@@ -23,7 +23,7 @@ defmodule MagiratorAppGuiMustWeb.DeckSelect do
 
   def data do
     %{
-      objects: ["deck:list"]
+      objects: ["player:decks"]
     }
   end
 

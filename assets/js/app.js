@@ -34,7 +34,7 @@ let datas = {} //App data storage
 
 
 //Selects what page template to render and where (should perhaps be by requesting el?)
-function navigate(params, id) {
+function navigate(params, id, value) {
   let route = params.action
   let pageDiv = 'mr'
 
@@ -96,20 +96,32 @@ function execute(params, id) {
 
 //TODO remove?
 //Selects what component template to render and where
-function insert(params, _id) {
+function insert(params, _id, value) {
   let componentName = params.action
+
+  console.log('insert params')
+  console.log(params)
+  console.log(value)
+
+  let renderParams = {}
+
+  if (typeof params.params.value !== 'undefined') {
+    renderParams[params.params.value] = value
+  }
+
+  console.log(renderParams)
 
   switch (componentName) {
 
     case 'player:select':
     case 'deck:select':
-      viewRender.renderView(componentName, params.target, params.params, [])
+      viewRender.renderView(componentName, params.target, renderParams, [])
       break;
 
     default:
       console.log('default')
       console.log(componentName)
-      viewRender.renderView(componentName, params.target, params.params, [])
+      viewRender.renderView(componentName, params.target, renderParams, [])
   }
 }
 
@@ -127,6 +139,7 @@ var selectTemplate = function (viewName) {
     case 'game:register':
     case 'player:select':
     case 'deck:select':
+    case 'player:decks':
       return viewName
 
     //No template needed
