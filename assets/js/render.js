@@ -1,10 +1,15 @@
 // Renders and replaces the requested view in the target view
 //
-//              updateTemplate
+//              
 //             / getTemplate \
-//-> renderView                renderContent - replaceView
-//  selectContent \ getData /
-//                 updateData
+//                                     -behaviours
+// -> renderView  > getTemplate        -template
+//                  templateChannel > updateTemplate
+//                                    updateTemplateData     -data
+//                                    fetchData           *> updateData > renderContent > replaceView
+//                                                                                        addBehaviours
+//                                                                                        addComponents
+
 
 //main function to render a view at target
 //decides what should be done and delegates
