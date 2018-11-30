@@ -4,9 +4,9 @@ defmodule MagiratorAppGuiMustWeb.PlayerDeckSelect do
     """
     <select id="deck:select" name="deck-select">
       <option value="0">Select deck</option>
-      {{#deck:list}}
+      {{#player:decks}}
       <option value="{{id}}">{{name}}</option>
-      {{/deck:list}}
+      {{/player:decks}}
     </select>
     """
   end

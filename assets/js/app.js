@@ -99,17 +99,11 @@ function execute(params, id) {
 function insert(params, _id, value) {
   let componentName = params.action
 
-  console.log('insert params')
-  console.log(params)
-  console.log(value)
-
   let renderParams = {}
 
   if (typeof params.params.value !== 'undefined') {
     renderParams[params.params.value] = value
   }
-
-  console.log(renderParams)
 
   switch (componentName) {
 
