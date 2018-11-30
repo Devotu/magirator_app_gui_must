@@ -34,7 +34,7 @@ let datas = {} //App data storage
 
 
 //Selects what page template to render and where (should perhaps be by requesting el?)
-function navigate(params, id) {
+function navigate(params, id, value) {
   let route = params.action
   let pageDiv = 'mr'
 
@@ -51,7 +51,7 @@ function navigate(params, id) {
     case 'deck:show':
     case 'deck:list':
     case 'game:register':
-      viewRender.renderView(route, pageDiv, renderParams)
+      viewRender.renderView(route, pageDiv, renderParams, [])
       break;
 
     default:
@@ -86,6 +86,7 @@ function execute(params, id) {
 
     case 'log':
       console.log('executed by:' + id)
+      console.log(params)
       break;
 
     default:
@@ -93,23 +94,32 @@ function execute(params, id) {
   }
 }
 
-
+//TODO remove?
 //Selects what component template to render and where
-function insert(params, _id) {
-  let viewName = params.action
+function insert(params, _id, value) {
+  let componentName = params.action
 
-  switch (viewName) {
+  let renderParams = {}
+
+  if (typeof params.params.value !== 'undefined') {
+    renderParams[params.params.value] = value
+  }
+
+  switch (componentName) {
 
     case 'player:select':
-      viewRender.renderView(viewName, params.target, params.params)
+    case 'deck:select':
+      viewRender.renderView(componentName, params.target, renderParams, [])
       break;
 
     default:
-      console.log(viewName)
+      console.log('default')
+      console.log(componentName)
+      viewRender.renderView(componentName, params.target, renderParams, [])
   }
 }
 
-
+//TODO Remove?
 //selects which template belongs to the requested view
 var selectTemplate = function (viewName) {
 
@@ -122,6 +132,8 @@ var selectTemplate = function (viewName) {
     case 'deck:show':
     case 'game:register':
     case 'player:select':
+    case 'deck:select':
+    case 'player:decks':
       return viewName
 
     //No template needed
@@ -179,4 +191,4 @@ const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
 
 //Start with login view
-viewRender.renderView('login', 'mr', {})
+viewRender.renderView('login', 'mr', {}, [])

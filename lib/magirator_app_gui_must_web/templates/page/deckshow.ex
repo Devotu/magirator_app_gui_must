@@ -15,7 +15,7 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
         %{
           element: "back",
           action: "click",
-          function: "navigate",
+          funct: "navigate",
           params: %{
             action: "deck:list",
             params: %{},
@@ -29,6 +29,12 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
   def data do
     %{
       objects: ["deck:show"]
+    }
+  end
+
+  def components do
+    %{
+      components: []
     }
   end
 end

@@ -24,7 +24,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
         %{
           element: "create",
           action: "click",
-          function: "execute",
+          funct: "execute",
           params: %{
             action: "deck:create",
             params: %{},
@@ -34,7 +34,7 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
         %{
           element: "back",
           action: "click",
-          function: "navigate",
+          funct: "navigate",
           params: %{
             action: "main",
             params: %{},
@@ -48,6 +48,12 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
   def data do
     %{
       objects: []
+    }
+  end
+
+  def components do
+    %{
+      components: []
     }
   end
 end

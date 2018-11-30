@@ -16,7 +16,7 @@ defmodule MagiratorAppGuiMustWeb.Login do
         %{
           element: "login",
           action: "click",
-          function: "execute",
+          funct: "execute",
           params: %{
             action: "login",
             params: %{},
@@ -30,6 +30,12 @@ defmodule MagiratorAppGuiMustWeb.Login do
   def data do
     %{
       objects: []
+    }
+  end
+
+  def components do
+    %{
+      components: []
     }
   end
 end

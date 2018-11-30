@@ -43,11 +43,14 @@ var viewRender = (function () {
   //provided as callback to function that gets the template
   //updates local template
   //then calls getData to fetch all data requirements described by the template
-  function updateTemplate(fetchPacket, template, behaviour, dataNames) {
-    
+  function updateTemplate(fetchPacket, template, behaviour, dataNames, components) {
+
     //Store associated template and behaviour
     tStore[fetchPacket.templateName] = template
-    bStore[fetchPacket.templateName] = behaviour
+    bStore[fetchPacket.target] = behaviour
+
+    //Add the components to the render data
+    fetchPacket.components = components
 
     //Fetch and update data requried by the template
     updateTemplateData(fetchPacket, dataNames)
@@ -139,6 +142,7 @@ var viewRender = (function () {
     return newElement
   }
 
+  //which of these available actions is supplied
   function selectFunction(requestedFunctionName) {
     switch (requestedFunctionName) {
       case 'navigate':
@@ -153,6 +157,12 @@ var viewRender = (function () {
       case 'insert':
         return inserter
 
+      case 'append':
+        return 'append'
+
+      case 'none':
+        return 'none'
+
       default:
         break;
     }
@@ -160,27 +170,62 @@ var viewRender = (function () {
 
   //add behavious to the given element
   function addBehaviours(fetchPacket, element) {
-    let templateBehaviours = bStore[fetchPacket.templateName]
+    let templateBehaviours = bStore[fetchPacket.target]
 
     templateBehaviours.actions.forEach(action => {
-      let funct = selectFunction(action.function)
+
+      //If an action is open to be overridden and such an overriding action exist
+      if (action.funct === 'append' && typeof fetchPacket.componentFunction !== 'undefined') {
+        action = fetchPacket.componentFunction
+      }
+
+      let funct = selectFunction(action.funct)
       let els = document.getElementsByName(action.element)
 
-      els.forEach(function (e) {
-        e.addEventListener(action.action, () => { funct(action.params, e.id) }, false)
-      })
+      if (funct !== 'none') {
+        els.forEach((el) => {
+          el.addEventListener(action.action, () => { funct(action.params, el.id, el.value) }, false)
+        })
+      } else {
+        console.log('no functions to register')
+      }
     });
 
     return element
   }
 
+  function addComponents(fetchPacket) {
+    fetchPacket.components.forEach(c => {
+      renderTemplate(c.action, c.target, c.params, c.components, c.cfunct)
+    })
+  }
+
   //finds the target
   //replaces with genereated content
+  //when all is done add behaviours and components
   function replaceView(fetchPacket, content) {
     var el = document.getElementById(fetchPacket.target)
     var newElement = createElement(fetchPacket, content)
     el.parentNode.replaceChild(newElement, el)
     addBehaviours(fetchPacket)
+    addComponents(fetchPacket)
+  }
+
+  //Not returned to be locally available
+  function renderTemplate(name, target, params, components, componentFunction) {
+
+    let templateName = tSelector(name)
+
+    let fetchPacket = {
+      templateName: templateName,
+      target: target,     //target to be replaced
+      params: params,
+      components: components,
+      componentFunction: componentFunction,
+      uuid: createUuid()  //used to unify the results from this track
+    }
+
+    getTemplate(fetchPacket)
   }
 
   return {
@@ -203,18 +248,8 @@ var viewRender = (function () {
       inserter = appInserter
     },
 
-    renderView: function (viewName, target, params) {
-
-      let templateName = tSelector(viewName)
-
-      let fetchPacket = {
-        templateName: templateName,
-        target: target,     //target to be replaced
-        params: params,     
-        uuid: createUuid()  //used to unify the results from this track
-      }
-
-      getTemplate(fetchPacket)
+    renderView: function (viewName, target, params, components) {
+      renderTemplate(viewName, target, params, components)
     }
   }
 })()
