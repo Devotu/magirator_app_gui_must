@@ -1,20 +1,6 @@
 
 var values = (function () {
 
-  function extractValue(element) {
-    let value = element.value
-
-    if (value != null && value != undefined) {
-
-      //Is checkbox
-      if (element.type === "checkbox") {
-        return element.checked
-      }
-
-      return value
-    }
-  }
-
   return {
     gatherInput: function (names) {
       let data = {}
@@ -25,7 +11,25 @@ var values = (function () {
 
         elements.forEach(e => {
           if (e != null && e != undefined) {
-            data[n] = extractValue(e)
+
+            if (e.type === "text") {
+              let value = e.value
+              if (value != null && value != undefined) {
+                data[n] = value
+              }
+            }
+        
+            if (e.type === "checkbox") {
+              data[n] = e.checked
+            }
+        
+            if (e.type === "radio") {
+              if (e.checked)
+              {
+                data[n] = e.value
+              }
+            }
+
           } else {
             console.log("could still not find " + n)
             notFound.push(n)
