@@ -12,7 +12,7 @@ var values = (function () {
         elements.forEach(e => {
           if (e != null && e != undefined) {
 
-            if (e.type === "text") {
+            if (e.type === "text" ) {
               let value = e.value
               if (value != null && value != undefined) {
                 data[n] = value
@@ -28,6 +28,10 @@ var values = (function () {
               {
                 data[n] = e.value
               }
+            }
+
+            if (e.type === "select-one") {
+              data[n] = e.value
             }
 
           } else {
