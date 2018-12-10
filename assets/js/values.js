@@ -7,8 +7,8 @@ var values = (function () {
     if (value != null && value != undefined) {
 
       //Is checkbox
-      if (value === "on") {
-        return document.getElementById(element.id).checked
+      if (element.type === "checkbox") {
+        return element.checked
       }
 
       return value
@@ -16,18 +16,22 @@ var values = (function () {
   }
 
   return {
-    gatherInput: function (paramList) {
+    gatherInput: function (names) {
       let data = {}
 
-      paramList.forEach(p => {
-        let element = document.getElementById(p)
+      //Names
+      names.forEach(n => {
+        let elements = document.getElementsByName(n)
 
-        if (element != null && element != undefined) {
-          data[p] = extractValue(element)
-        } else {
-          console.log("could not find " + p)
-        }
-      });
+        elements.forEach(e => {
+          if (e != null && e != undefined) {
+            data[n] = extractValue(e)
+          } else {
+            console.log("could still not find " + n)
+            notFound.push(n)
+          }
+        })
+      })
 
       return data
     }

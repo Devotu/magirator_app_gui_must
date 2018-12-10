@@ -3,15 +3,15 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
   def html do
     """
     <div id="deck:new">
-      Name: <input type="text" id="name"></br>
-      Theme: <input type="text" id="theme"></br>
-      Format: <input type="text" id="format"></br>
-      Black: <input type="checkbox" id="black"></br>
-      White: <input type="checkbox" id="white"></br>
-      Red: <input type="checkbox" id="red"></br>
-      Green: <input type="checkbox" id="green"></br>
-      Blue: <input type="checkbox" id="blue"></br>
-      Colorless: <input type="checkbox" id="colorless"></br>
+      Name: <input type="text" name="name"></br>
+      Theme: <input type="text" name="theme"></br>
+      Format: <input type="text" name="format"></br>
+      Black: <input type="checkbox" name="black"></br>
+      White: <input type="checkbox" name="white"></br>
+      Red: <input type="checkbox" name="red"></br>
+      Green: <input type="checkbox" name="green"></br>
+      Blue: <input type="checkbox" name="blue"></br>
+      Colorless: <input type="checkbox" name="colorless"></br>
       <button type="button" name="create">Create</button>
       </br><button type="button" name="back">Main</button>
     </div>
