@@ -42,7 +42,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           params: %{
             action: "game:register",
             params: %{},
-            input: ["conclusion"]
+            input: ["conclusion", "player-deck", "opponent", "opponent-deck"]
           }   
         },
         %{
@@ -69,8 +69,9 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     %{
       components: [
         %{
-          action: "player:select",
           target: "opponent:select",
+          action: "player:select",
+          name: "opponent",
           params: %{},
           cfunct: %{
             element: "player-select",
@@ -79,6 +80,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
             params: %{
               target: "opponent:deck",
               action: "player:decks",
+              name: "opponent-deck",
               params: %{value: "id"},
               input: []
             }
@@ -86,8 +88,9 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           components: []
         },
         %{
-          action: "deck:select",
           target: "played:deck",
+          action: "deck:select",
+          name: "player-deck",
           params: %{},
           cfunct: %{
             funct: "none"

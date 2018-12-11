@@ -201,7 +201,7 @@ var viewRender = (function () {
 
   function addComponents(fetchPacket) {
     fetchPacket.components.forEach(c => {
-      renderTemplate(c.action, c.target, c.params, c.components, c.cfunct)
+      renderTemplate(c.action, c.target, c.params, c.components, c.cfunct, c.name)
     })
   }
 
@@ -209,15 +209,23 @@ var viewRender = (function () {
   //replaces with genereated content
   //when all is done add behaviours and components
   function replaceView(fetchPacket, content) {
-    var el = document.getElementById(fetchPacket.target)
-    var newElement = createElement(fetchPacket, content)
+    let el = document.getElementById(fetchPacket.target)
+    let newElement = createElement(fetchPacket, content)
+
+console.log("name: " + fetchPacket.nameOverride)
+
+    if (fetchPacket.nameOverride !== undefined) {
+      let actualElement = newElement.firstChild
+      actualElement.setAttribute("name", fetchPacket.nameOverride)
+    }
+
     el.parentNode.replaceChild(newElement, el)
     addBehaviours(fetchPacket)
     addComponents(fetchPacket)
   }
 
   //Not returned to be locally available
-  function renderTemplate(name, target, params, components, componentFunction) {
+  function renderTemplate(name, target, params, components, componentFunction, nameOverride) {
 
     let templateName = tSelector(name)
 
@@ -227,6 +235,7 @@ var viewRender = (function () {
       params: params,
       components: components,
       componentFunction: componentFunction,
+      nameOverride: nameOverride, //if exist use this name instead of name in template
       uuid: createUuid()  //used to unify the results from this track
     }
 

@@ -9,6 +9,8 @@ var values = (function () {
       names.forEach(n => {
         let elements = document.getElementsByName(n)
 
+        console.log("> " + n);
+
         elements.forEach(e => {
           if (e != null && e != undefined) {
 
@@ -39,6 +41,8 @@ var values = (function () {
             notFound.push(n)
           }
         })
+
+        console.log("-> " + data[n])
       })
 
       return data

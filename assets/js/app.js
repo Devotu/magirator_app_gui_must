@@ -70,19 +70,29 @@ function execute(params, id) {
       break;
 
     case 'deck:create':
-      let deck_create_input = valueHelper.gatherInput(params.input)
-      let callback = function () {
+      let deckCreateInput = valueHelper.gatherInput(params.input)
+      let deckCreateCallback = function () {
         let nav = {
           action: 'main',
           params: {},
           input: []
         }
-
         navigate(nav)
       }
-
-      dataChannel.create("deck", deck_create_input, callback)
+      dataChannel.create("deck", deckCreateInput, deckCreateCallback)
       break;
+
+    case 'game:register':
+      let gameRegisterInput = valueHelper.gatherInput(params.input)
+      let gameRegisterCallback = function () {
+        let nav = {
+          action: 'main',
+          params: {},
+          input: []
+        }
+        navigate(nav)
+      }
+      dataChannel.create("game", gameRegisterInput, gameRegisterCallback)
 
     case 'log':
       console.log('executed by:' + id)
