@@ -38,15 +38,7 @@ function navigate(params, id, value) {
   let route = params.template
   let pageDiv = 'mr'
 
-  let renderParams = {}
-
-  if (typeof params.params.id !== 'undefined') {
-    renderParams[params.params.id] = id
-  }
-
-  if (params.params.self) {
-    renderParams["self"] = true
-  }
+  let renderParams = collectRenderParams(params.params, id, value)
 
   switch (route) {
     //Same mr with same as route
@@ -64,14 +56,10 @@ function navigate(params, id, value) {
 }
 
 //Selects what component template to render and where
-function insert(params, _id, value) {
+function insert(params, id, value) {
 
   console.log('inserting')
-  let renderParams = {}
-
-  if (typeof params.params.value !== 'undefined') {
-    renderParams[params.params.value] = value
-  }
+  let renderParams = collectRenderParams(params.params, id, value)
 
   switch (params.action) {
 
@@ -85,6 +73,24 @@ function insert(params, _id, value) {
       console.log(params.action)
       viewRender.renderTemplate(params.action, params.target, renderParams, [])
   }
+}
+
+function collectRenderParams(params, id, value) {
+  let renderParams = {}
+
+  if (typeof params.id !== 'undefined') {
+    renderParams[params.id] = id
+  }
+
+  if (typeof params.value !== 'undefined') {
+    renderParams[params.value] = value
+  }
+
+  if (params.self) {
+    renderParams["self"] = true
+  }
+
+  return renderParams
 }
 
 //TODO add then object to template
