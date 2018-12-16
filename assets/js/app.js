@@ -77,7 +77,8 @@ function execute(params, id) {
       let deckCreateInput = valueHelper.gatherInput(params.input)
       let deckCreateCallback = function () {
         let nav = {
-          action: 'main',
+          action: 'render',
+          template: 'main',
           params: {},
           input: []
         }
@@ -174,7 +175,8 @@ function login() {
       dataChannel.connect(response.token)
 
       let nav = {
-        action: 'main',
+        action: 'render',
+        template: 'main',
         params: {},
         input: []
       }

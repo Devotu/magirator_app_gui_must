@@ -30,9 +30,9 @@ defmodule MagiratorAppGuiMustWeb.Main do
           action: "click",
           funct: "navigate",
           params: %{
-            params: %{},
             action: "render",
             template: "deck:list",
+            params: %{self: true},
             input: []
           }   
         },

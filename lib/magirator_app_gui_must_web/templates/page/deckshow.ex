@@ -17,12 +17,11 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "deck:list",
-            params: %{},
             action: "render",
             template: "deck:list",
+            params: %{self: true},
             input: []
-          }   
+          }          
         }
       ]
     }
