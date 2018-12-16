@@ -19,6 +19,8 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
           params: %{
             action: "deck:list",
             params: %{},
+            action: "render",
+            template: "deck:list",
             input: []
           }   
         }

@@ -23,7 +23,8 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "deck:show",
+            action: "render",
+            template: "deck:show",
             params: %{id: "deck_id"},
             input: []
           }          
@@ -33,7 +34,8 @@ defmodule MagiratorAppGuiMustWeb.DeckList do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "main",
+            action: "render",
+            template: "main",
             params: %{},
             input: []
           }          

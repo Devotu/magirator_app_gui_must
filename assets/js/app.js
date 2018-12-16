@@ -44,6 +44,10 @@ function navigate(params, id, value) {
     renderParams[params.params.id] = id
   }
 
+  if (params.params.self) {
+    renderParams["self"] = true
+  }
+
   switch (route) {
     //Same mr with same as route
     case 'main':

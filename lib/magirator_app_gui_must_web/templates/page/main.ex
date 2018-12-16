@@ -19,7 +19,8 @@ defmodule MagiratorAppGuiMustWeb.Main do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "deck:new",
+            action: "render",
+            template: "deck:new",
             params: %{},
             input: []
           }   
@@ -29,8 +30,9 @@ defmodule MagiratorAppGuiMustWeb.Main do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "deck:list",
             params: %{},
+            action: "render",
+            template: "deck:list",
             input: []
           }   
         },
@@ -39,7 +41,8 @@ defmodule MagiratorAppGuiMustWeb.Main do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "game:register",
+            action: "render",
+            template: "game:register",
             params: %{},
             input: []
           }

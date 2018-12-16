@@ -36,7 +36,8 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
           action: "click",
           funct: "navigate",
           params: %{
-            action: "main",
+            action: "render",
+            template: "main",
             params: %{},
             input: []
           }          
