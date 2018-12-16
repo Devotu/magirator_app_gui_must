@@ -35,7 +35,7 @@ let datas = {} //App data storage
 
 //Selects what page template to render and where (should perhaps be by requesting el?)
 function navigate(params, id, value) {
-  let route = params.action
+  let route = params.template
   let pageDiv = 'mr'
 
   let renderParams = {}
@@ -55,7 +55,7 @@ function navigate(params, id, value) {
     case 'deck:show':
     case 'deck:list':
     case 'game:register':
-      viewRender.renderView(route, pageDiv, renderParams, [])
+      viewRender.renderPage(route, pageDiv, renderParams, [])
       break;
 
     default:
@@ -63,7 +63,31 @@ function navigate(params, id, value) {
   }
 }
 
+//Selects what component template to render and where
+function insert(params, _id, value) {
 
+  console.log('inserting')
+  let renderParams = {}
+
+  if (typeof params.params.value !== 'undefined') {
+    renderParams[params.params.value] = value
+  }
+
+  switch (params.action) {
+
+    case 'player:select':
+    case 'deck:select':
+      viewRender.renderTemplate(params.action, params.target, renderParams, params.components, params.cfunct, params.name)
+      break;
+
+    default:
+      console.log('default')
+      console.log(params.action)
+      viewRender.renderTemplate(params.action, params.target, renderParams, [])
+  }
+}
+
+//TODO add then object to template
 //Performes one action
 function execute(params, id) {
   let action = params.action
@@ -106,31 +130,6 @@ function execute(params, id) {
 
     default:
       console.log(action)
-  }
-}
-
-//TODO remove?
-//Selects what component template to render and where
-function insert(params, _id, value) {
-  let componentName = params.action
-
-  let renderParams = {}
-
-  if (typeof params.params.value !== 'undefined') {
-    renderParams[params.params.value] = value
-  }
-
-  switch (componentName) {
-
-    case 'player:select':
-    case 'deck:select':
-      viewRender.renderView(componentName, params.target, renderParams, [])
-      break;
-
-    default:
-      console.log('default')
-      console.log(componentName)
-      viewRender.renderView(componentName, params.target, renderParams, [])
   }
 }
 
@@ -207,4 +206,4 @@ const showData = document.getElementById('show-data');
 showData.addEventListener('click', () => { console.log(datas) }, false);
 
 //Start with login view
-viewRender.renderView('login', 'mr', {}, [])
+viewRender.renderPage('login', 'mr', {}, [])

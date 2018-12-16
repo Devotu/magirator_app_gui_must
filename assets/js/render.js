@@ -4,7 +4,7 @@
 //             / getTemplate \
 //                                     -behaviours
 // -> renderView  > getTemplate        -template
-//                  templateChannel > updateTemplate
+//    Page/Template templateChannel > updateTemplate
 //                                    updateTemplateData     -data
 //                                    fetchData           *> updateData > renderContent > replaceView
 //                                                                                        addBehaviours
@@ -201,7 +201,7 @@ var viewRender = (function () {
 
   function addComponents(fetchPacket) {
     fetchPacket.components.forEach(c => {
-      renderTemplate(c.action, c.target, c.params, c.components, c.cfunct, c.name)
+      renderTargetTemplate(c.action, c.target, c.params, c.components, c.cfunct, c.name)
     })
   }
 
@@ -212,11 +212,9 @@ var viewRender = (function () {
     let el = document.getElementById(fetchPacket.target)
     let newElement = createElement(fetchPacket, content)
 
-console.log("name: " + fetchPacket.nameOverride)
-
-    if (fetchPacket.nameOverride !== undefined) {
+    if (fetchPacket.elementName !== undefined) {
       let actualElement = newElement.firstChild
-      actualElement.setAttribute("name", fetchPacket.nameOverride)
+      actualElement.setAttribute("name", fetchPacket.elementName)
     }
 
     el.parentNode.replaceChild(newElement, el)
@@ -225,17 +223,22 @@ console.log("name: " + fetchPacket.nameOverride)
   }
 
   //Not returned to be locally available
-  function renderTemplate(name, target, params, components, componentFunction, nameOverride) {
+  function renderTargetTemplate(name, target, params, components, componentFunction, elementName) {
 
     let templateName = tSelector(name)
 
+    //If no element name specified, use same as template
+    if (elementName == undefined) {
+      elementName = name
+    }
+
     let fetchPacket = {
       templateName: templateName,
+      elementName: elementName,   //this will be the name of the rendered element
       target: target,     //target to be replaced
       params: params,
       components: components,
       componentFunction: componentFunction,
-      nameOverride: nameOverride, //if exist use this name instead of name in template
       uuid: createUuid()  //used to unify the results from this track
     }
 
@@ -262,8 +265,14 @@ console.log("name: " + fetchPacket.nameOverride)
       inserter = appInserter
     },
 
-    renderView: function (viewName, target, params, components) {
-      renderTemplate(viewName, target, params, components)
+    //Renders an entire view including components etc.
+    renderPage: function (viewName, target, params, components) {
+      renderTargetTemplate(viewName, target, params, components)
+    },
+
+    //Renders a single template
+    renderTemplate(name, target, params, components, componentFunction, elementName) {
+      renderTargetTemplate(name, target, params, components, componentFunction, elementName)
     }
   }
 })()
