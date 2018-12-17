@@ -46,14 +46,15 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           }   
         },
         %{
-          element: "cancel",
+          element: "back",
           action: "click",
           funct: "navigate",
           params: %{
-            action: "main",
+            action: "render",
+            template: "main",
             params: %{},
             input: []
-          }   
+          }          
         }
       ]
     }
@@ -61,7 +62,7 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
 
   def data do
     %{
-      objects: ["deck:list", "player:list"]
+      objects: []
     }
   end
 
@@ -70,28 +71,33 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
       components: [
         %{
           target: "opponent:select",
-          action: "player:select",
+          action: "render",
+          template: "player:select",
           name: "opponent",
           params: %{},
           cfunct: %{
-            element: "player-select",
+            element: "opponent",
             action: "change",
             funct: "insert",
             params: %{
               target: "opponent:deck",
-              action: "player:decks",
+              action: "deck:select",
               name: "opponent-deck",
-              params: %{value: "id"},
-              input: []
+              params: %{value: "player_id"},
+              cfunct: %{
+                funct: "none"
+              },
+              components: []
             }
           },
           components: []
         },
         %{
           target: "played:deck",
-          action: "deck:select",
+          action: "render",
+          template: "deck:select",
           name: "player-deck",
-          params: %{},
+          params: %{self: true},
           cfunct: %{
             funct: "none"
           },
