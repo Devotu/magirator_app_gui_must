@@ -1,48 +1,69 @@
 
 var values = (function () {
 
+  function collectValues(name, valueType) { 
+    let elements = document.getElementsByName(name)
+    let data = {}
+
+    elements.forEach(e => {
+      if (e != null && e != undefined) {
+
+        if (e.type === "text") {
+          let value = e.value
+          if (value != null && value != undefined) {
+            data[name] = value
+          }
+        }
+
+        if (e.type === "checkbox") {
+          data[name] = e.checked
+        }
+
+        if (e.type === "radio") {
+          if (e.checked) {
+            data[name] = e.value
+          }
+        }
+
+        if (e.type === "select-one") {
+          data[name] = e.value
+        }
+
+        //type conversion
+        if (valueType === "number") {
+          data[name] = Number(data[name])
+        }
+
+      } else {
+        console.log("could not find " + name)
+      }
+    })
+
+    return data
+  }
+
   return {
-    gatherInput: function (names) {
+    gatherInput: function (requestedDataObjects) {
       let data = {}
 
-      //Names
-      names.forEach(n => {
-        let elements = document.getElementsByName(n)
+      requestedDataObjects.forEach(obj => {
 
-        console.log("> " + n);
-
-        elements.forEach(e => {
-          if (e != null && e != undefined) {
-
-            if (e.type === "text" ) {
-              let value = e.value
-              if (value != null && value != undefined) {
-                data[n] = value
-              }
-            }
-        
-            if (e.type === "checkbox") {
-              data[n] = e.checked
-            }
-        
-            if (e.type === "radio") {
-              if (e.checked)
-              {
-                data[n] = e.value
-              }
-            }
-
-            if (e.type === "select-one") {
-              data[n] = e.value
-            }
-
-          } else {
-            console.log("could still not find " + n)
-            notFound.push(n)
-          }
-        })
-
-        console.log("-> " + data[n])
+        switch (obj.inputtype) {
+          case "single":
+            let objData = collectValues(obj.name, obj.valuetype)
+            data[obj.name] = objData[obj.name]
+            break;
+          case "list":
+            let listData = []
+            obj.values.forEach(v => {
+              let objData = collectValues(v, obj.valuetype)
+              listData.push(objData[v])
+            })
+            data[obj.name] = listData
+            break;
+          default:
+            break;
+        }
       })
 
       return data

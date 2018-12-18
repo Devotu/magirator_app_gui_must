@@ -20,6 +20,8 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
     <input type="radio" name="conclusion" value="win"> Win
     <input type="radio" name="conclusion" value="draw"> Draw
     <input type="radio" name="conclusion" value="loss"> Loss
+
+    <input type="text" name="comment">
     
     <br><br>
 
@@ -42,11 +44,31 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           params: %{
             action: "game:register",
             params: %{},
-            input: ["conclusion", "player-deck", "opponent", "opponent-deck"]
+            input: [
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "conclusion"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "comment"
+              },
+              %{
+                inputtype: "list",
+                valuetype: "number",
+                name: "decks",
+                values: [
+                  "player-deck", 
+                  "opponent-deck"
+                ]
+              }
+            ]
           }   
         },
         %{
-          element: "back",
+          element: "cancel",
           action: "click",
           funct: "navigate",
           params: %{

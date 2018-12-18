@@ -96,9 +96,6 @@ var viewRender = (function () {
     let dataContent = {}
     dataContent[dataName] = data
     dStore[dataName] = dataContent
-    console.log(dataName)
-    console.log(fetchPacket.elementName)
-    console.log(data)
     renderContent(fetchPacket)
   }
 
@@ -192,7 +189,6 @@ var viewRender = (function () {
 
       if (funct !== 'none') {
         els.forEach((el) => {
-          console.log(action)
           el.addEventListener(action.action, () => { funct(action.params, el.id, el.value) }, false)
         })
       } else {

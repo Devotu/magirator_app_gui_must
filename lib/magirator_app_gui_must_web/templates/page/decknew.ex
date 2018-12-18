@@ -28,7 +28,58 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
           params: %{
             action: "deck:create",
             params: %{},
-            input: ["name", "theme", "format", "black", "white", "red", "green", "blue", "colorless"]
+            input: [
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "conclusion"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "name"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "theme"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "format"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "black"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "white"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "red"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "green"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "blue"
+              },
+              %{
+                inputtype: "single",
+                valuetype: "string",
+                name: "colorless"
+              }
+            ]
           }          
         },
         %{
