@@ -93,7 +93,7 @@ function collectRenderParams(params, id, value) {
   return renderParams
 }
 
-//TODO add then object to template
+
 //Performes one action
 function execute(params, id) {
   let action = params.action
@@ -121,7 +121,8 @@ function execute(params, id) {
       let gameRegisterInput = valueHelper.gatherInput(params.input)
       let gameRegisterCallback = function () {
         let nav = {
-          action: 'main',
+          action: 'render',
+          template: 'main',
           params: {},
           input: []
         }
