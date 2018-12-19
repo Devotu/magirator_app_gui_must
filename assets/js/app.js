@@ -139,29 +139,6 @@ function execute(params, id) {
   }
 }
 
-//TODO Remove?
-//selects which template belongs to the requested view
-var selectTemplate = function (viewName) {
-
-  switch (viewName) {
-    //Same as viewName
-    case 'main':
-    case 'login':
-    case 'deck:new':
-    case 'deck:list':
-    case 'deck:show':
-    case 'game:register':
-    case 'player:select':
-    case 'deck:select':
-    case 'player:decks':
-      return viewName
-
-    //No template needed
-    default:
-      return 'none' //No template needed
-  }
-}
-
 
 //Special function as it is needed to access the data api
 function login() {
@@ -197,7 +174,6 @@ templateChannel.init(templateSocketUrl)
 dataChannel.init(dataSocketUrl)
 viewRender.init(
   templateChannel, dataChannel,
-  selectTemplate,
   templates, behaviours, datas,
   login, navigate, execute, insert)
 

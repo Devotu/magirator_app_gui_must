@@ -24,7 +24,6 @@ var viewRender = (function () {
 
   //Variables declared by running app
   //t:template, b:behaviour, d:data
-  let tSelector = null
   let tChannel = null
   let dChannel = null
   let tStore = null
@@ -225,15 +224,13 @@ var viewRender = (function () {
   //Not returned to be locally available
   function renderTargetTemplate(name, target, params, components, componentFunction, elementName) {
 
-    let templateName = tSelector(name)
-
     //If no element name specified, use same as template
     if (elementName == undefined) {
       elementName = name
     }
 
     let fetchPacket = {
-      templateName: templateName,
+      templateName: name,
       elementName: elementName,   //this will be the name of the rendered element
       target: target,     //target to be replaced
       params: params,
@@ -250,12 +247,10 @@ var viewRender = (function () {
     //Load with app specific template selectors
     init: function (
       appTemplateChannel, appDataChannel,
-      appTemplateSelector,
       appTemplates, appBehaviours, appDatas,
       appLogin, appNavigator, appExecutor, appInserter) {
       tChannel = appTemplateChannel
       dChannel = appDataChannel
-      tSelector = appTemplateSelector
       tStore = appTemplates
       bStore = appBehaviours
       dStore = appDatas
