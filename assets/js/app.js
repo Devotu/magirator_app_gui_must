@@ -96,48 +96,81 @@ function collectRenderParams(params, id, value) {
 
 //Performes one action
 function execute(params, id) {
-  let action = params.action
+
+  let input = null;
+  let callback = null;
+
+  if (params.then !== undefined && params.then.action === "render") {
+    callback = function () {
+      let nav = {
+        action: 'render',
+        template: params.then.template,
+        params: params.then.params,
+        input: params.then.input
+      }
+      navigate(nav)
+    }
+  }
 
   switch (params.action) {
     case 'login':
       login()
       break;
 
-    case 'deck:create':
-      let deckCreateInput = valueHelper.gatherInput(params.input)
-      let deckCreateCallback = function () {
-        let nav = {
-          action: 'render',
-          template: 'main',
-          params: {},
-          input: []
-        }
-        navigate(nav)
-      }
-      dataChannel.create("deck", deckCreateInput, deckCreateCallback)
-      break;
-
-    case 'game:register':
-      let gameRegisterInput = valueHelper.gatherInput(params.input)
-      let gameRegisterCallback = function () {
-        let nav = {
-          action: 'render',
-          template: 'main',
-          params: {},
-          input: []
-        }
-        navigate(nav)
-      }
-      dataChannel.create("game", gameRegisterInput, gameRegisterCallback)
-
-    case 'log':
-      console.log('executed by:' + id)
-      console.log(params)
-      break;
+    case "create":
+      input = valueHelper.gatherInput(params.input)
+      dataChannel.create(
+        params.item,
+        input,
+        callback
+      )
 
     default:
-      console.log(action)
+      break;
   }
+
+
+
+  // switch (params.action) {
+  //   case 'login':
+  //     login()
+  //     break;
+
+  //   case 'deck:create':
+  //     let deckCreateInput = valueHelper.gatherInput(params.input)
+  //     let deckCreateCallback = function () {
+  //       let nav = {
+  //         action: 'render',
+  //         template: 'main',
+  //         params: {},
+  //         input: []
+  //       }
+  //       navigate(nav)
+  //     }
+  //     dataChannel.create("deck", deckCreateInput, deckCreateCallback)
+  //     break;
+
+  //   case 'game:register':
+  //     let gameRegisterInput = valueHelper.gatherInput(params.input)
+  //     let gameRegisterCallback = function () {
+  //       let nav = {
+  //         action: 'render',
+  //         template: 'main',
+  //         params: {},
+  //         input: []
+  //       }
+  //       navigate(nav)
+  //     }
+  //     dataChannel.create("game", gameRegisterInput, gameRegisterCallback)
+
+  //   case 'log':
+  //     console.log('executed by:' + id)
+  //     console.log(params)
+  //     break;
+
+  //   default:
+  //     console.log(action)
+  // }
 }
 
 

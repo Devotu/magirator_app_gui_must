@@ -42,7 +42,8 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
           action: "click",
           funct: "execute",
           params: %{
-            action: "game:register",
+            action: "create",
+            item: "game",
             params: %{},
             input: [
               %{
@@ -64,7 +65,13 @@ defmodule MagiratorAppGuiMustWeb.GameRegister do
                   "opponent-deck"
                 ]
               }
-            ]
+            ],
+            then: %{
+              action: "render",
+              template: "main",
+              params: %{},
+              input: []
+            }
           }   
         },
         %{

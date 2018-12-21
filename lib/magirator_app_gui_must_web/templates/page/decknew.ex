@@ -26,7 +26,8 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
           action: "click",
           funct: "execute",
           params: %{
-            action: "deck:create",
+            action: "create",
+            item: "deck",
             params: %{},
             input: [
               %{
@@ -79,7 +80,13 @@ defmodule MagiratorAppGuiMustWeb.DeckNew do
                 valuetype: "string",
                 name: "colorless"
               }
-            ]
+            ],
+            then: %{
+              action: "render",
+              template: "main",
+              params: %{},
+              input: []
+            }
           }          
         },
         %{
