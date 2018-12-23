@@ -113,6 +113,6 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
 
     def handle_in(_, _, socket) do
         Logger.debug "No such template"        
-        {:reply, :error, socket}
+        {:reply, {:error, %{cause: "No such template"}}, socket}
     end
 end

@@ -26,6 +26,7 @@ var templateChannel = (function () {
       console.log("getting template " + fetchPacket.templateName)
       channel.push('template', fetchPacket.templateName)
         .receive("ok", (data) => callback(fetchPacket, data.template, data.behaviour, data.data.objects, data.components.components))
+        .receive("error", (data) => console.log(data.cause))
     }
   }
 })()
