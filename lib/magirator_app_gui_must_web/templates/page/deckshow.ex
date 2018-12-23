@@ -5,7 +5,12 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
     <div id="deck:show">
       This is -{{deck:show.name}}- with id -{{deck:show.id}}-
     </div>
-    </br><button type="button" name="back">List</button>
+    </br>
+    <button type="button" name="games" value={{deck:show.id}}>Games</button>
+    <button type="button" name="statistics" {{deck:show.id}}>Statistics</button>
+    <div name="deck-info" id="deck:info"></div>
+    </br>
+    <button type="button" name="back">List</button>
     """
   end
     
@@ -22,6 +27,18 @@ defmodule MagiratorAppGuiMustWeb.DeckShow do
             params: %{self: true},
             input: []
           }          
+        },
+        %{
+          element: "games",
+          action: "click",
+          funct: "insert",
+          params: %{
+            target: "deck:info",
+            action: "deck:games",
+            name: "deck-games",
+            params: %{value: "deck_id"},
+            components: []
+          }         
         }
       ]
     }

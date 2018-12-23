@@ -58,7 +58,6 @@ function navigate(params, id, value) {
 //Selects what component template to render and where
 function insert(params, id, value) {
 
-  console.log('inserting')
   let renderParams = collectRenderParams(params.params, id, value)
 
   switch (params.action) {
@@ -94,7 +93,7 @@ function collectRenderParams(params, id, value) {
 }
 
 
-//Performes one action
+//Performes one action and a given then if exists
 function execute(params, id) {
 
   let input = null;

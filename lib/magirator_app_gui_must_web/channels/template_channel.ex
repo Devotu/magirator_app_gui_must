@@ -10,6 +10,7 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
     alias MagiratorAppGuiMustWeb.PlayerSelect
     alias MagiratorAppGuiMustWeb.DeckSelect
     alias MagiratorAppGuiMustWeb.PlayerDeckSelect
+    alias MagiratorAppGuiMustWeb.DeckGames
 
     require Logger
 
@@ -107,6 +108,15 @@ defmodule MagiratorAppGuiMustWeb.TemplateChannel do
             behaviour: PlayerDeckSelect.behaviour, 
             data: PlayerDeckSelect.data,
             components: PlayerDeckSelect.components
+            }}, socket}
+    end
+
+    def handle_in("template", "deck:games", socket) do
+        {:reply, {:ok, %{
+            template: DeckGames.html, 
+            behaviour: DeckGames.behaviour, 
+            data: DeckGames.data,
+            components: DeckGames.components
             }}, socket}
     end
 
